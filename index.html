@@ -20,17 +20,24 @@
     <meta name="twitter:title" content="Actor-Director | 영상 중심 캐스팅 플랫폼">
     <meta name="twitter:description" content="배우는 영상 프로필로 캐스팅 받고, 감독은 검증된 배우와 안전하게 협업하세요.">
     
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-S4302VXZLJ');</script>
-    <!-- End Google Tag Manager -->
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S43Q2VXZLJ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-S43Q2VXZLJ');
+    </script>
+    <!-- End Google Analytics 4 -->
     
     <!-- External Stylesheets -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Tailwind Configuration -->
     <script>
@@ -51,10 +58,18 @@
     </script>
 </head>
 <body class="bg-cinema-900 text-white">
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/gtm.ns.html?id=GTM-S4302VXZLJ"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="text-center">
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <div class="text-white font-semibold">Actor·Director</div>
+        </div>
+    </div>
+    
+    <!-- Scroll Progress Indicator -->
+    <div id="scroll-progress" class="scroll-progress"></div>
+    
+    <!-- No noscript needed for GA4 -->
 
     <!-- UTM Parameters Hidden Storage -->
     <input type="hidden" id="utm_source" value="">
@@ -62,28 +77,35 @@
     <input type="hidden" id="utm_campaign" value="">
 
     <!-- Header with Tab Navigation -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-cinema-800/95 backdrop-blur-sm border-b border-cinema-600">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-cinema-800/95 backdrop-blur-md border-b border-cinema-600/50 shadow-lg">
         <nav class="container mx-auto px-4 py-4" role="navigation" aria-label="메인 탭 네비게이션">
             <div class="flex items-center justify-between">
-                <div class="text-xl font-bold gradient-text">Actor·Director</div>
-                <div class="flex gap-4" role="tablist">
+                <div class="flex items-center gap-3">
+                    <div class="text-2xl">🎬</div>
+                    <div class="text-xl font-bold gradient-text">Actor·Director</div>
+                </div>
+                <div class="flex gap-2" role="tablist">
                     <button 
-                        class="tab-btn px-6 py-2 rounded-lg transition-all font-semibold"
+                        class="tab-btn px-6 py-3 rounded-xl transition-all font-semibold border-2 border-transparent hover:border-purple-500/30"
                         role="tab"
                         aria-selected="true"
                         aria-controls="actor-content"
                         data-tab="actor"
                         onclick="switchTab('actor')">
-                        배우용
+                        <span class="flex items-center gap-2">
+                            🎭 배우용
+                        </span>
                     </button>
                     <button 
-                        class="tab-btn px-6 py-2 rounded-lg transition-all font-semibold"
+                        class="tab-btn px-6 py-3 rounded-xl transition-all font-semibold border-2 border-transparent hover:border-purple-500/30"
                         role="tab"
                         aria-selected="false"
                         aria-controls="director-content"
                         data-tab="director"
                         onclick="switchTab('director')">
-                        감독·제작자용
+                        <span class="flex items-center gap-2">
+                            🎬 감독·제작자용
+                        </span>
                     </button>
                 </div>
             </div>
@@ -93,24 +115,64 @@
     <!-- Actor Content -->
     <main id="actor-content" class="tab-content active pt-24" role="tabpanel" aria-labelledby="actor-tab">
         <!-- Hero Section -->
-        <section id="hero" class="min-h-screen flex items-center justify-center px-4 py-20" data-section="hero">
-            <div class="container mx-auto max-w-6xl text-center">
-                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+        <section id="hero" class="hero-background min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden" data-section="hero">
+            <!-- Portfolio Grid Background -->
+            <div class="portfolio-grid">
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+            </div>
+            
+            <!-- Dark Overlay for Text Readability -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/35 to-black/65 z-5"></div>
+            
+            <!-- Film Strip Effects -->
+            <div class="film-strip z-10"></div>
+            
+            <!-- Floating Cinematic Elements -->
+            <div class="floating-element floating-camera z-10">🎥</div>
+            <div class="floating-element floating-film z-10">🎞️</div>
+            <div class="floating-element floating-spotlight z-10">💡</div>
+            
+            <!-- Main Content -->
+            <div class="container mx-auto max-w-6xl text-center relative z-20">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-2xl">
                     프로필만 돌리지 말고,<br>
-                    <span class="gradient-text">당신의 연기로 캐스팅 받으세요.</span>
+                    <span class="gradient-text drop-shadow-lg">당신의 연기로 캐스팅 받으세요.</span>
                 </h1>
-                <p class="text-xl md:text-2xl text-gray-300 mb-12">
+                <p class="text-xl md:text-2xl text-gray-200 mb-12 drop-shadow-lg">
                     영상 중심 프로필 · 상호리뷰 평판 · 공정한 기회
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <button 
-                        class="cta-btn bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 px-8 py-4 rounded-xl text-lg font-semibold transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+                        class="cta-btn btn-primary px-8 py-4 rounded-xl text-lg font-bold transition-all transform hover:scale-105 text-white border-0 pulse-glow"
                         data-role="actor"
                         onclick="handleCTA('actor')">
-                        배우로 시작하기 →
+                        ✨ 배우로 시작하기 →
                     </button>
                     <button 
-                        class="cta-btn-secondary bg-white/10 hover:bg-white/20 border-2 border-white/30 hover:border-white/50 px-8 py-4 rounded-xl text-lg font-semibold transition-all backdrop-blur-sm"
+                        class="cta-btn-secondary bg-white/10 hover:bg-white/20 border-2 border-white/30 hover:border-white/50 px-8 py-4 rounded-xl text-lg font-semibold transition-all backdrop-blur-sm shadow-xl"
                         onclick="handleFeatureExplore('actor')">
                         기능 살펴보기 🎬
                     </button>
@@ -263,24 +325,64 @@
     <!-- Director Content -->
     <main id="director-content" class="tab-content pt-24" role="tabpanel" aria-labelledby="director-tab">
         <!-- Hero Section -->
-        <section id="hero" class="min-h-screen flex items-center justify-center px-4 py-20" data-section="hero">
-            <div class="container mx-auto max-w-6xl text-center">
-                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+        <section id="hero" class="hero-background min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden" data-section="hero">
+            <!-- Portfolio Grid Background -->
+            <div class="portfolio-grid">
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+            </div>
+            
+            <!-- Dark Overlay for Text Readability -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/35 to-black/65 z-5"></div>
+            
+            <!-- Film Strip Effects -->
+            <div class="film-strip z-10"></div>
+            
+            <!-- Floating Cinematic Elements -->
+            <div class="floating-element floating-camera z-10">🎬</div>
+            <div class="floating-element floating-film z-10">🎭</div>
+            <div class="floating-element floating-spotlight z-10">🎪</div>
+            
+            <!-- Main Content -->
+            <div class="container mx-auto max-w-6xl text-center relative z-20">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-2xl">
                     '노쇼' 걱정 끝.<br>
-                    <span class="gradient-text">평판이 검증된 배우가 기다립니다.</span>
+                    <span class="gradient-text drop-shadow-lg">평판이 검증된 배우가 기다립니다.</span>
                 </h1>
-                <p class="text-xl md:text-2xl text-gray-300 mb-12">
+                <p class="text-xl md:text-2xl text-gray-200 mb-12 drop-shadow-lg">
                     신뢰 온도 · 표준 근로계약서 · 영상 포트폴리오
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <button 
-                        class="cta-btn bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 px-8 py-4 rounded-xl text-lg font-semibold transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+                        class="cta-btn btn-primary px-8 py-4 rounded-xl text-lg font-bold transition-all transform hover:scale-105 text-white border-0 pulse-glow"
                         data-role="director"
                         onclick="handleCTA('director')">
-                        감독으로 시작하기 →
+                        ✨ 감독으로 시작하기 →
                     </button>
                     <button 
-                        class="cta-btn-secondary bg-white/10 hover:bg-white/20 border-2 border-white/30 hover:border-white/50 px-8 py-4 rounded-xl text-lg font-semibold transition-all backdrop-blur-sm"
+                        class="cta-btn-secondary bg-white/10 hover:bg-white/20 border-2 border-white/30 hover:border-white/50 px-8 py-4 rounded-xl text-lg font-semibold transition-all backdrop-blur-sm shadow-xl"
                         onclick="handleFeatureExplore('director')">
                         기능 살펴보기 🎥
                     </button>
@@ -451,19 +553,17 @@
          * ============================================================
          * QA 체크리스트
          * ============================================================
-         * [ ] 탭 전환 시 select_content 이벤트 푸시 확인 (tab, utm_*)
-         * [ ] 섹션 50% 이상 노출 시 view_content 이벤트 푸시 확인
-         * [ ] CTA 버튼 클릭 시 cta_primary 이벤트 푸시 확인 (tab, role, utm_*)
-         * [ ] 핵심 기능 CTA 클릭 시 cta_feature 이벤트 푸시 확인 (tab, feature, utm_*)
-         * [ ] 폼 제출 성공 시 generate_lead 이벤트 푸시 확인 (tab, role, email_domain, utm_*)
-         * [ ] PSF 모달 투표 시 psf_vote_yes/no 이벤트 푸시 확인
-         * [ ] UTM 파라미터 파싱 및 모든 이벤트에 포함 확인
-         * [ ] GTM에서 dataLayer 이벤트 수신 및 GA4 전송 설정 확인
+         * [ ] 탭 전환 시 cta_click 이벤트 발생 확인 (event_category: tab_switch)
+         * [ ] 섹션 50% 이상 노출 시 cta_click 이벤트 발생 확인 (event_category: section_view)
+         * [ ] CTA 버튼 클릭 시 cta_click 이벤트 발생 확인 (event_category: primary_cta)
+         * [ ] 핵심 기능 CTA 클릭 시 cta_click 이벤트 발생 확인 (event_category: feature_cta)
+         * [ ] 기능 살펴보기 CTA 클릭 시 cta_click 이벤트 발생 확인 (event_category: explore_cta)
+         * [ ] 폼 제출 성공 시 cta_click 이벤트 발생 확인 (event_category: form_submit)
+         * [ ] PSF 모달 투표 시 cta_click 이벤트 발생 확인 (event_category: psf_vote)
+         * [ ] UTM 파라미터가 모든 이벤트에 포함되는지 확인
+         * [ ] GA4에서 cta_click 이벤트 수신 확인
          * ============================================================
          */
-
-        // Initialize dataLayer
-        window.dataLayer = window.dataLayer || [];
 
         // Parse UTM parameters from URL
         function parseUTMParams() {
@@ -498,7 +598,7 @@
         }
 
         // Tab Switching Function
-        // GTM 매핑: event='select_content', tab='actor'|'director', utm_source, utm_medium, utm_campaign
+        // GA4 이벤트: cta_click (event_category: tab_switch)
         function switchTab(tab) {
             const actorContent = document.getElementById('actor-content');
             const directorContent = document.getElementById('director-content');
@@ -517,21 +617,18 @@
             tabs.forEach(btn => {
                 const isActive = btn.dataset.tab === tab;
                 btn.setAttribute('aria-selected', isActive);
-                if (isActive) {
-                    btn.classList.add('bg-purple-600', 'text-white');
-                    btn.classList.remove('text-gray-400', 'hover:text-white');
-                } else {
-                    btn.classList.remove('bg-purple-600', 'text-white');
-                    btn.classList.add('text-gray-400', 'hover:text-white');
-                }
             });
+            
+            // Update tab button styling
+            updateTabButtons();
             
             // Update URL hash
             window.location.hash = tab;
             
-            // Push to dataLayer - GTM will handle GA4 event
-            window.dataLayer.push({
-                event: 'select_content',
+            // GA4 이벤트 전송
+            gtag('event', 'cta_click', {
+                event_category: 'tab_switch',
+                event_label: tab,
                 tab: tab,
                 ...getUTMParams()
             });
@@ -549,10 +646,11 @@
         });
 
         // CTA Button Click Handler
-        // GTM 매핑: event='cta_primary', tab, role='actor'|'director', utm_*
+        // GA4 이벤트: cta_click (event_category: primary_cta)
         function handleCTA(role) {
-            window.dataLayer.push({
-                event: 'cta_primary',
+            gtag('event', 'cta_click', {
+                event_category: 'primary_cta',
+                event_label: `${role}_start`,
                 tab: getCurrentTab(),
                 role: role,
                 ...getUTMParams()
@@ -564,10 +662,11 @@
         }
 
         // Feature CTA Click Handler
-        // GTM 매핑: event='cta_feature', tab, feature='video_profile'|'review_system'|'fair_matching'|'trust_score'|'contract_auto'|'video_search', utm_*
+        // GA4 이벤트: cta_click (event_category: feature_cta)
         function handleFeatureCTA(role, feature) {
-            window.dataLayer.push({
-                event: 'cta_feature',
+            gtag('event', 'cta_click', {
+                event_category: 'feature_cta',
+                event_label: feature,
                 tab: getCurrentTab(),
                 feature: feature,
                 role: role,
@@ -580,10 +679,11 @@
         }
 
         // Feature Explore CTA Click Handler
-        // GTM 매핑: event='cta_explore', tab, role='actor'|'director', utm_*
+        // GA4 이벤트: cta_click (event_category: explore_cta)
         function handleFeatureExplore(role) {
-            window.dataLayer.push({
-                event: 'cta_explore',
+            gtag('event', 'cta_click', {
+                event_category: 'explore_cta',
+                event_label: `explore_${role}`,
                 tab: getCurrentTab(),
                 role: role,
                 ...getUTMParams()
@@ -595,7 +695,7 @@
         }
 
         // Form Submit Handler
-        // GTM 매핑: event='generate_lead', tab, role, email_domain, utm_*
+        // GA4 이벤트: cta_click (event_category: form_submit)
         function handleFormSubmit(event, role) {
             event.preventDefault();
             
@@ -613,9 +713,10 @@
             
             // Simulate form submission delay
             setTimeout(() => {
-                // Push to dataLayer - GTM will handle GA4 event
-                window.dataLayer.push({
-                    event: 'generate_lead',
+                // GA4 이벤트 전송
+                gtag('event', 'cta_click', {
+                    event_category: 'form_submit',
+                    event_label: `lead_${role}`,
                     tab: getCurrentTab(),
                     role: role,
                     email_domain: emailDomain,
@@ -640,13 +741,13 @@
         }
 
         // PSF Vote Handler
-        // GTM 매핑: event='psf_vote_yes' 또는 'psf_vote_no', tab, utm_*
+        // GA4 이벤트: cta_click (event_category: psf_vote)
         function handlePSF(vote) {
-            const eventName = vote === 'yes' ? 'psf_vote_yes' : 'psf_vote_no';
-            
-            window.dataLayer.push({
-                event: eventName,
+            gtag('event', 'cta_click', {
+                event_category: 'psf_vote',
+                event_label: vote === 'yes' ? 'psf_yes' : 'psf_no',
                 tab: getCurrentTab(),
+                vote: vote,
                 ...getUTMParams()
             });
             
@@ -659,7 +760,7 @@
         }
 
         // Intersection Observer for Section Tracking
-        // GTM 매핑: event='view_content', section='hero'|'problem'|'solution'|'form', tab, utm_*
+        // GA4 이벤트: cta_click (event_category: section_view)
         let observedSections = new Set();
 
         function setupIntersectionObserver() {
@@ -678,8 +779,9 @@
                         if (!observedSections.has(sectionKey)) {
                             observedSections.add(sectionKey);
                             
-                            window.dataLayer.push({
-                                event: 'view_content',
+                            gtag('event', 'cta_click', {
+                                event_category: 'section_view',
+                                event_label: `view_${sectionId}`,
                                 section: sectionId,
                                 tab: getCurrentTab(),
                                 ...getUTMParams()
@@ -694,8 +796,43 @@
             sections.forEach(section => observer.observe(section));
         }
 
+        // Loading Screen Management
+        function hideLoadingScreen() {
+            const loadingScreen = document.getElementById('loading-screen');
+            loadingScreen.classList.add('fade-out');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500);
+        }
+
+        // Scroll Progress Indicator
+        function updateScrollProgress() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+        }
+
+        // Enhanced Tab Button Styling
+        function updateTabButtons() {
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(btn => {
+                const isActive = btn.getAttribute('aria-selected') === 'true';
+                if (isActive) {
+                    btn.classList.add('bg-purple-600', 'text-white', 'border-purple-500');
+                    btn.classList.remove('text-gray-400', 'hover:text-white', 'border-transparent');
+                } else {
+                    btn.classList.remove('bg-purple-600', 'text-white', 'border-purple-500');
+                    btn.classList.add('text-gray-400', 'hover:text-white', 'border-transparent');
+                }
+            });
+        }
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
+            // Hide loading screen after a short delay
+            setTimeout(hideLoadingScreen, 1000);
+            
             // Parse UTM parameters
             parseUTMParams();
             
@@ -709,6 +846,26 @@
             
             // Setup intersection observer
             setupIntersectionObserver();
+            
+            // Update tab buttons styling
+            updateTabButtons();
+            
+            // Setup scroll progress indicator
+            window.addEventListener('scroll', updateScrollProgress);
+            
+            // Add smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
         });
     </script>
 </body>

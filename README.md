@@ -24,32 +24,35 @@
 
 - **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
 - **Styling**: Tailwind CSS
-- **Analytics**: Google Tag Manager (GTM) + Google Analytics 4 (GA4)
+- **Analytics**: Google Analytics 4 (GA4) with gtag
 - **Hosting**: GitHub Pages
 
 ## 📊 트래킹 이벤트
 
-### 구현된 dataLayer 이벤트
-1. **select_content**: 탭 전환 (배우용/감독용)
-2. **view_content**: 섹션 50% 이상 노출
-3. **cta_primary**: 메인 CTA 버튼 클릭
-4. **cta_feature**: 핵심 기능별 CTA 클릭
-5. **generate_lead**: 사전 신청 폼 제출
-6. **psf_vote_yes/no**: PSF 모달 투표
+### 구현된 GA4 이벤트
+모든 CTA 액션은 `cta_click` 이벤트로 통합되며, `event_category`로 구분됩니다:
 
-### GTM 설정 필요사항
+1. **tab_switch**: 탭 전환 (배우용/감독용)
+2. **section_view**: 섹션 50% 이상 노출
+3. **primary_cta**: 메인 CTA 버튼 클릭
+4. **feature_cta**: 핵심 기능별 CTA 클릭
+5. **explore_cta**: 기능 살펴보기 CTA 클릭
+6. **form_submit**: 사전 신청 폼 제출
+7. **psf_vote**: PSF 모달 투표
+
+### GA4 이벤트 구조
 ```javascript
-// GTM에서 수신할 dataLayer 이벤트 예시
-{
-  event: 'cta_feature',
-  tab: 'actor' | 'director',
-  feature: 'video_profile' | 'review_system' | 'fair_matching' | 
-           'trust_score' | 'contract_auto' | 'video_search',
-  role: 'actor' | 'director',
+// GA4로 전송되는 이벤트 예시
+gtag('event', 'cta_click', {
+  event_category: 'feature_cta',
+  event_label: 'video_profile',
+  tab: 'actor',
+  feature: 'video_profile',
+  role: 'actor',
   utm_source: '...',
   utm_medium: '...',
   utm_campaign: '...'
-}
+});
 ```
 
 ## 🎯 측정 가능한 지표
@@ -90,11 +93,11 @@ npx serve .
 
 ## 🔧 설정 방법
 
-### 1. GTM 컨테이너 ID 설정
-`index.html`에서 GTM 컨테이너 ID를 실제 값으로 교체:
+### 1. GA4 측정 ID 설정
+`index.html`에서 GA4 측정 ID를 실제 값으로 교체:
 ```javascript
-// 현재: GTM-S4302VXZLJ
-// 실제 GTM ID로 교체 필요
+// 현재: GA4-MEASUREMENT-ID
+// 실제 GA4 측정 ID로 교체 필요 (예: G-XXXXXXXXXX)
 ```
 
 ### 2. UTM 파라미터 테스트
@@ -123,14 +126,16 @@ https://your-domain.com/?utm_source=test&utm_medium=social&utm_campaign=launch
 
 ## 🧪 QA 체크리스트
 
-- [ ] 탭 전환 시 select_content 이벤트 푸시 확인
-- [ ] 섹션 50% 이상 노출 시 view_content 이벤트 푸시 확인
-- [ ] CTA 버튼 클릭 시 이벤트 푸시 확인
-- [ ] 핵심 기능 CTA 클릭 시 cta_feature 이벤트 푸시 확인
-- [ ] 폼 제출 성공 시 generate_lead 이벤트 푸시 확인
-- [ ] PSF 모달 투표 시 이벤트 푸시 확인
+- [ ] 탭 전환 시 cta_click 이벤트 (event_category: tab_switch) 발생 확인
+- [ ] 섹션 50% 이상 노출 시 cta_click 이벤트 (event_category: section_view) 발생 확인
+- [ ] 메인 CTA 버튼 클릭 시 cta_click 이벤트 (event_category: primary_cta) 발생 확인
+- [ ] 핵심 기능 CTA 클릭 시 cta_click 이벤트 (event_category: feature_cta) 발생 확인
+- [ ] 기능 살펴보기 CTA 클릭 시 cta_click 이벤트 (event_category: explore_cta) 발생 확인
+- [ ] 폼 제출 성공 시 cta_click 이벤트 (event_category: form_submit) 발생 확인
+- [ ] PSF 모달 투표 시 cta_click 이벤트 (event_category: psf_vote) 발생 확인
 - [ ] UTM 파라미터 파싱 및 모든 이벤트에 포함 확인
-- [ ] GTM에서 dataLayer 이벤트 수신 및 GA4 전송 설정 확인
+- [ ] GA4에서 cta_click 이벤트 수신 확인
+- [ ] 개발자 도구에서 gtag 이벤트 전송 확인
 - [ ] 모바일 반응형 디자인 확인
 - [ ] 접근성 (키보드 네비게이션, 스크린 리더) 확인
 
