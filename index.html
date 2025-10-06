@@ -26,7 +26,29 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-S43Q2VXZLJ');
+        
+        // Enhanced GA4 Configuration
+        gtag('config', 'G-S43Q2VXZLJ', {
+            // Enhanced measurement settings
+            enhanced_measurement: true,
+            page_title: document.title,
+            page_location: window.location.href,
+            // User engagement settings
+            engagement_time_msec: 100,
+            // Custom parameters
+            custom_map: {
+                'custom_parameter_1': 'tab',
+                'custom_parameter_2': 'feature',
+                'custom_parameter_3': 'role'
+            }
+        });
+        
+        // Set user properties for segmentation
+        gtag('set', 'user_properties', {
+            preferred_tab: 'unknown',
+            user_type: 'visitor',
+            engagement_level: 'low'
+        });
     </script>
     <!-- End Google Analytics 4 -->
     
@@ -615,6 +637,182 @@
             };
         }
 
+        // Enhanced user engagement tracking
+        function trackUserEngagement() {
+            let scrollDepth = 0;
+            let timeOnPage = 0;
+            let interactionCount = 0;
+            
+            // Track scroll depth
+            function updateScrollDepth() {
+                const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+                if (scrollPercent > scrollDepth) {
+                    scrollDepth = scrollPercent;
+                    
+                    // Send scroll milestone events
+                    if (scrollPercent >= 25 && scrollPercent < 50) {
+                        gtag('event', 'scroll', {
+                            event_category: 'engagement',
+                            event_label: '25_percent',
+                            scroll_depth: 25,
+                            tab: getCurrentTab(),
+                            ...getUTMParams()
+                        });
+                    } else if (scrollPercent >= 50 && scrollPercent < 75) {
+                        gtag('event', 'scroll', {
+                            event_category: 'engagement',
+                            event_label: '50_percent',
+                            scroll_depth: 50,
+                            tab: getCurrentTab(),
+                            ...getUTMParams()
+                        });
+                    } else if (scrollPercent >= 75) {
+                        gtag('event', 'scroll', {
+                            event_category: 'engagement',
+                            event_label: '75_percent',
+                            scroll_depth: 75,
+                            tab: getCurrentTab(),
+                            ...getUTMParams()
+                        });
+                    }
+                }
+            }
+            
+            // Track time on page
+            setInterval(() => {
+                timeOnPage += 10;
+                
+                // Send engagement milestones
+                if (timeOnPage === 30) { // 30 seconds
+                    gtag('event', 'user_engagement', {
+                        event_category: 'engagement',
+                        event_label: '30_seconds',
+                        engagement_time_msec: 30000,
+                        tab: getCurrentTab(),
+                        ...getUTMParams()
+                    });
+                } else if (timeOnPage === 60) { // 1 minute
+                    gtag('event', 'user_engagement', {
+                        event_category: 'engagement',
+                        event_label: '1_minute',
+                        engagement_time_msec: 60000,
+                        tab: getCurrentTab(),
+                        ...getUTMParams()
+                    });
+                } else if (timeOnPage === 180) { // 3 minutes
+                    gtag('event', 'user_engagement', {
+                        event_category: 'engagement',
+                        event_label: '3_minutes',
+                        engagement_time_msec: 180000,
+                        tab: getCurrentTab(),
+                        ...getUTMParams()
+                    });
+                    
+                    // Update user engagement level
+                    gtag('set', 'user_properties', {
+                        engagement_level: 'high'
+                    });
+                }
+            }, 10000); // Check every 10 seconds
+            
+            // Track interactions
+            document.addEventListener('click', () => {
+                interactionCount++;
+                if (interactionCount === 5) {
+                    gtag('event', 'user_engagement', {
+                        event_category: 'engagement',
+                        event_label: 'active_user',
+                        interaction_count: interactionCount,
+                        tab: getCurrentTab(),
+                        ...getUTMParams()
+                    });
+                }
+            });
+            
+            window.addEventListener('scroll', updateScrollDepth);
+        }
+
+        // Enhanced ecommerce tracking for lead generation
+        function trackLeadGeneration(role, email) {
+            const emailDomain = email.split('@')[1];
+            
+            gtag('event', 'generate_lead', {
+                event_category: 'conversion',
+                event_label: role,
+                currency: 'KRW',
+                value: 1, // Lead value
+                items: [{
+                    item_id: `lead_${role}`,
+                    item_name: `Lead Generation - ${role}`,
+                    item_category: 'lead',
+                    item_variant: getCurrentTab(),
+                    quantity: 1,
+                    price: 1
+                }],
+                tab: getCurrentTab(),
+                role: role,
+                email_domain: emailDomain,
+                ...getUTMParams()
+            });
+        }
+
+        // Page performance tracking
+        function trackPagePerformance() {
+            // Track Core Web Vitals
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    const perfData = performance.getEntriesByType('navigation')[0];
+                    
+                    gtag('event', 'page_timing', {
+                        event_category: 'performance',
+                        event_label: 'load_time',
+                        page_load_time: Math.round(perfData.loadEventEnd - perfData.fetchStart),
+                        dom_content_loaded: Math.round(perfData.domContentLoadedEventEnd - perfData.fetchStart),
+                        tab: getCurrentTab(),
+                        ...getUTMParams()
+                    });
+                }, 0);
+            });
+        }
+
+        // Session tracking for retention analysis
+        function trackSession() {
+            const sessionId = Date.now().toString();
+            const isReturningUser = localStorage.getItem('actor_director_visited');
+            
+            if (!isReturningUser) {
+                localStorage.setItem('actor_director_visited', 'true');
+                gtag('event', 'first_visit', {
+                    event_category: 'user_lifecycle',
+                    event_label: 'new_user',
+                    session_id: sessionId,
+                    ...getUTMParams()
+                });
+                
+                gtag('set', 'user_properties', {
+                    user_type: 'new'
+                });
+            } else {
+                gtag('event', 'return_visit', {
+                    event_category: 'user_lifecycle',
+                    event_label: 'returning_user',
+                    session_id: sessionId,
+                    ...getUTMParams()
+                });
+                
+                gtag('set', 'user_properties', {
+                    user_type: 'returning'
+                });
+            }
+            
+            // Track session start
+            gtag('event', 'session_start', {
+                event_category: 'user_lifecycle',
+                session_id: sessionId,
+                ...getUTMParams()
+            });
+        }
+
         // Get current active tab
         function getCurrentTab() {
             return document.getElementById('actor-content').classList.contains('active') ? 'actor' : 'director';
@@ -774,6 +972,9 @@
                     ...getUTMParams()
                 });
                 
+                // Enhanced lead generation tracking
+                trackLeadGeneration(role, email);
+                
                 // Hide form and show thank you card
                 form.classList.add('hidden');
                 document.getElementById(`${role}-thankyou`).classList.remove('hidden');
@@ -900,6 +1101,11 @@
             
             // Update tab buttons styling
             updateTabButtons();
+            
+            // Initialize tracking functions
+            trackSession();
+            trackUserEngagement();
+            trackPagePerformance();
             
             // Setup scroll progress indicator
             window.addEventListener('scroll', updateScrollProgress);

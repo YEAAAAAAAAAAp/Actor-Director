@@ -30,16 +30,33 @@
 ## 📊 트래킹 이벤트
 
 ### 구현된 GA4 이벤트
+
+#### 1. CTA 클릭 이벤트 (`cta_click`)
 모든 CTA 액션은 `cta_click` 이벤트로 통합되며, `event_category`로 구분됩니다:
 
-1. **tab_switch**: 탭 전환 (배우용/감독용)
-2. **section_view**: 섹션 50% 이상 노출
-3. **primary_cta**: 메인 CTA 버튼 클릭
-4. **feature_cta**: 핵심 기능별 CTA 클릭 (레거시)
-5. **individual_feature_cta**: 개별 기능 CTA 클릭 (신규)
-6. **explore_cta**: 기능 살펴보기 CTA 클릭
-7. **form_submit**: 사전 신청 폼 제출
-8. **psf_vote**: PSF 모달 투표
+- **tab_switch**: 탭 전환 (배우용/감독용)
+- **section_view**: 섹션 50% 이상 노출
+- **primary_cta**: 메인 CTA 버튼 클릭
+- **feature_cta**: 핵심 기능별 CTA 클릭 (레거시)
+- **individual_feature_cta**: 개별 기능 CTA 클릭 (신규)
+- **explore_cta**: 기능 살펴보기 CTA 클릭
+- **form_submit**: 사전 신청 폼 제출
+- **psf_vote**: PSF 모달 투표
+
+#### 2. 리드 생성 이벤트 (`generate_lead`)
+Enhanced Ecommerce 구조로 리드 생성을 추적합니다.
+
+#### 3. 사용자 참여도 이벤트
+- **scroll**: 스크롤 깊이 추적 (25%, 50%, 75%)
+- **user_engagement**: 시간 기반 참여도 (30초, 1분, 3분)
+
+#### 4. 사용자 생명주기 이벤트
+- **first_visit**: 첫 방문자 추적
+- **return_visit**: 재방문자 추적
+- **session_start**: 세션 시작 추적
+
+#### 5. 페이지 성능 이벤트
+- **page_timing**: 페이지 로딩 시간 추적
 
 ### GA4 이벤트 구조
 
@@ -77,6 +94,13 @@ gtag('event', 'cta_click', {
 - **개별 기능별 관심도**: 6개 핵심 기능 클릭률 비교
 - **사용자 여정 분석**: 섹션별 체류 시간 및 이탈률
 - **UTM 캠페인 효과**: 소스별 전환율 및 기능 관심도
+
+### 웹 트래픽 및 리텐션 KPI
+- **사용자 참여도**: 스크롤 깊이, 체류 시간, 상호작용 횟수
+- **리텐션 분석**: 신규 vs 재방문자 비율, 세션 지속 시간
+- **페이지 성능**: 로딩 시간, Core Web Vitals
+- **전환율 최적화**: 리드 생성률, 폼 완료율
+- **사용자 세그멘테이션**: 참여도별 사용자 분류 (low/high engagement)
 
 ### 기능별 상세 분석
 **배우용 기능:**
@@ -185,6 +209,21 @@ https://your-domain.com/?utm_source=test&utm_medium=social&utm_campaign=launch
 - [ ] 기능 살펴보기 CTA 클릭 시 cta_click 이벤트 (event_category: explore_cta) 발생 확인
 - [ ] 폼 제출 성공 시 cta_click 이벤트 (event_category: form_submit) 발생 확인
 - [ ] PSF 모달 투표 시 cta_click 이벤트 (event_category: psf_vote) 발생 확인
+- [ ] 리드 생성 시 generate_lead 이벤트 발생 확인 (Enhanced Ecommerce 구조)
+
+### 사용자 참여도 및 리텐션 트래킹
+- [ ] 스크롤 25%, 50%, 75% 지점에서 scroll 이벤트 발생 확인
+- [ ] 30초, 1분, 3분 체류 시 user_engagement 이벤트 발생 확인
+- [ ] 5회 이상 클릭 시 user_engagement (active_user) 이벤트 발생 확인
+- [ ] 첫 방문 시 first_visit 이벤트 발생 확인
+- [ ] 재방문 시 return_visit 이벤트 발생 확인
+- [ ] 세션 시작 시 session_start 이벤트 발생 확인
+- [ ] 페이지 로딩 완료 시 page_timing 이벤트 발생 확인
+
+### 사용자 속성 검증
+- [ ] user_type: 'new' 또는 'returning' 설정 확인
+- [ ] preferred_tab: 사용자가 선택한 탭 기록 확인
+- [ ] engagement_level: 'low' 또는 'high' 설정 확인 (3분 이상 체류 시)
 
 ### 개별 기능 CTA 테스트 (총 6개)
 **배우용 기능:**
