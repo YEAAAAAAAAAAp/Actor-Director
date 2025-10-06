@@ -6,16 +6,33 @@
     <title>Actor-Director | 영상 중심 캐스팅 플랫폼</title>
     <meta name="description" content="배우는 영상 프로필로 캐스팅 받고, 감독은 검증된 배우와 안전하게 협업하세요.">
     
-    <!-- TODO: GTM-XXXXXXX를 실제 Google Tag Manager 컨테이너 ID로 교체하세요 -->
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Actor-Director | 영상 중심 캐스팅 플랫폼">
+    <meta property="og:description" content="배우는 영상 프로필로 캐스팅 받고, 감독은 검증된 배우와 안전하게 협업하세요.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yeaaaaaaaaaap.github.io/Actor-Director/">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Actor-Director | 영상 중심 캐스팅 플랫폼">
+    <meta name="twitter:description" content="배우는 영상 프로필로 캐스팅 받고, 감독은 검증된 배우와 안전하게 협업하세요.">
+    
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+    })(window,document,'script','dataLayer','GTM-S4302VXZLJ');</script>
     <!-- End Google Tag Manager -->
     
+    <!-- External Stylesheets -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Tailwind Configuration -->
     <script>
         tailwind.config = {
             theme: {
@@ -32,27 +49,10 @@
             }
         }
     </script>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
-        }
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
-        }
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-    </style>
 </head>
 <body class="bg-cinema-900 text-white">
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/gtm.ns.html?id=GTM-XXXXXXX"
+    <noscript><iframe src="https://www.googletagmanager.com/gtm.ns.html?id=GTM-S4302VXZLJ"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
@@ -223,8 +223,9 @@
                     </div>
                     <button 
                         type="submit" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-lg font-bold text-lg transition-all">
-                        사전 신청하기
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-lg font-bold text-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span class="submit-text">사전 신청하기</span>
+                        <span class="loading-text hidden">제출 중<span class="loading-dots"></span></span>
                     </button>
                 </form>
 
@@ -376,8 +377,9 @@
                     </div>
                     <button 
                         type="submit" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-lg font-bold text-lg transition-all">
-                        사전 신청하기
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-lg font-bold text-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span class="submit-text">사전 신청하기</span>
+                        <span class="loading-text hidden">제출 중<span class="loading-dots"></span></span>
                     </button>
                 </form>
 
@@ -560,21 +562,32 @@
             event.preventDefault();
             
             const form = event.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const submitText = submitBtn.querySelector('.submit-text');
+            const loadingText = submitBtn.querySelector('.loading-text');
             const email = form.email.value;
             const emailDomain = email.split('@')[1] || '';
             
-            // Push to dataLayer - GTM will handle GA4 event
-            window.dataLayer.push({
-                event: 'generate_lead',
-                tab: getCurrentTab(),
-                role: role,
-                email_domain: emailDomain,
-                ...getUTMParams()
-            });
+            // Show loading state
+            submitBtn.disabled = true;
+            submitText.classList.add('hidden');
+            loadingText.classList.remove('hidden');
             
-            // Hide form and show thank you card
-            form.classList.add('hidden');
-            document.getElementById(`${role}-thankyou`).classList.remove('hidden');
+            // Simulate form submission delay
+            setTimeout(() => {
+                // Push to dataLayer - GTM will handle GA4 event
+                window.dataLayer.push({
+                    event: 'generate_lead',
+                    tab: getCurrentTab(),
+                    role: role,
+                    email_domain: emailDomain,
+                    ...getUTMParams()
+                });
+                
+                // Hide form and show thank you card
+                form.classList.add('hidden');
+                document.getElementById(`${role}-thankyou`).classList.remove('hidden');
+            }, 1500);
         }
 
         // PSF Modal Functions
