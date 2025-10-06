@@ -31,19 +31,34 @@
 
 ### 구현된 GA4 이벤트
 
-#### 1. CTA 클릭 이벤트 (`cta_click`)
-모든 CTA 액션은 `cta_click` 이벤트로 통합되며, `event_category`로 구분됩니다:
+#### 1. 개별 CTA 이벤트 (고유 이벤트 이름)
+각 CTA는 고유한 이벤트 이름을 가지며, GA4에서 개별 분석이 가능합니다:
 
-- **tab_switch**: 탭 전환 (배우용/감독용)
-- **section_view**: 섹션 50% 이상 노출
-- **primary_cta**: 메인 CTA 버튼 클릭
-- **feature_cta**: 핵심 기능별 CTA 클릭 (레거시)
-- **individual_feature_cta**: 개별 기능 CTA 클릭 (신규)
-- **explore_cta**: 기능 살펴보기 CTA 클릭
-- **interview_cta**: 인터뷰 참여 CTA 클릭 (신규)
-- **modal_close**: 모달 닫기 버튼 클릭 (신규)
-- **form_submit**: 사전 신청 폼 제출
-- **psf_vote**: PSF 모달 투표
+**네비게이션 이벤트:**
+- **`tab_switch`**: 탭 전환 (배우용/감독용)
+
+**CTA 클릭 이벤트:**
+- **`primary_cta_click`**: 메인 CTA 버튼 클릭 (✨ 배우로 시작하기, 감독으로 시작하기)
+- **`explore_features_click`**: 기능 살펴보기 CTA 클릭
+
+**개별 기능 CTA 이벤트 (각각 고유 이벤트):**
+- **`video_profile_click`**: 영상 프로필 CTA 클릭
+- **`review_system_click`**: 상호리뷰 평판 시스템 CTA 클릭
+- **`fair_matching_click`**: 공정한 매칭 CTA 클릭
+- **`trust_score_click`**: 신뢰 온도 시스템 CTA 클릭
+- **`contract_auto_click`**: 표준 근로계약서 자동화 CTA 클릭
+- **`video_search_click`**: 영상 포트폴리오 검색 CTA 클릭
+
+**전환 이벤트:**
+- **`form_submit`**: 사전 신청 폼 제출
+- **`interview_cta_click`**: 인터뷰 참여 CTA 클릭
+
+**피드백 이벤트:**
+- **`psf_vote`**: PSF 모달 투표
+
+**UI 상호작용 이벤트:**
+- **`modal_close`**: 모달 닫기 버튼 클릭
+- **`section_view`**: 섹션 50% 이상 노출
 
 #### 2. 리드 생성 이벤트 (`generate_lead`)
 Enhanced Ecommerce 구조로 리드 생성을 추적합니다.
@@ -62,10 +77,11 @@ Enhanced Ecommerce 구조로 리드 생성을 추적합니다.
 
 ### GA4 이벤트 구조
 
-**개별 기능 CTA 이벤트 (신규):**
+**개별 기능 CTA 이벤트 (고유 이벤트 이름):**
 ```javascript
-gtag('event', 'cta_click', {
-  event_category: 'individual_feature_cta',
+// 영상 프로필 CTA 클릭 시
+gtag('event', 'video_profile_click', {
+  event_category: 'feature_cta',
   event_label: 'video_profile',
   tab: 'actor',
   feature: 'video_profile',
@@ -76,10 +92,11 @@ gtag('event', 'cta_click', {
 });
 ```
 
-**기타 CTA 이벤트:**
+**메인 CTA 이벤트:**
 ```javascript
-gtag('event', 'cta_click', {
-  event_category: 'primary_cta',
+// 메인 CTA 버튼 클릭 시
+gtag('event', 'primary_cta_click', {
+  event_category: 'cta',
   event_label: 'actor_start',
   tab: 'actor',
   role: 'actor',
@@ -89,13 +106,29 @@ gtag('event', 'cta_click', {
 });
 ```
 
+**탭 전환 이벤트:**
+```javascript
+// 탭 전환 시
+gtag('event', 'tab_switch', {
+  event_category: 'navigation',
+  event_label: 'actor',
+  tab: 'actor',
+  utm_source: '...',
+  utm_medium: '...',
+  utm_campaign: '...'
+});
+```
+
 ## 🎯 측정 가능한 지표
 
 ### 사용자 행동 분석
-- **탭별 사용자 선호도**: 배우 vs 감독 탭 사용률
-- **개별 기능별 관심도**: 6개 핵심 기능 클릭률 비교
-- **사용자 여정 분석**: 섹션별 체류 시간 및 이탈률
-- **UTM 캠페인 효과**: 소스별 전환율 및 기능 관심도
+- **탭별 사용자 선호도**: `tab_switch` 이벤트로 배우 vs 감독 탭 사용률 분석
+- **개별 기능별 관심도**: 6개 고유 이벤트로 핵심 기능 클릭률 개별 비교
+  - `video_profile_click`, `review_system_click`, `fair_matching_click`
+  - `trust_score_click`, `contract_auto_click`, `video_search_click`
+- **CTA 성과 분석**: `primary_cta_click`, `explore_features_click` 개별 측정
+- **사용자 여정 분석**: `section_view` 이벤트로 섹션별 체류 시간 및 이탈률
+- **UTM 캠페인 효과**: 모든 이벤트에 UTM 파라미터 포함으로 소스별 전환율 분석
 
 ### 웹 트래픽 및 리텐션 KPI
 - **사용자 참여도**: 스크롤 깊이, 체류 시간, 상호작용 횟수
@@ -203,17 +236,27 @@ https://your-domain.com/?utm_source=test&utm_medium=social&utm_campaign=launch
 
 ## 🧪 QA 체크리스트
 
-### GA4 이벤트 트래킹
-- [ ] 탭 전환 시 cta_click 이벤트 (event_category: tab_switch) 발생 확인
-- [ ] 섹션 50% 이상 노출 시 cta_click 이벤트 (event_category: section_view) 발생 확인
-- [ ] 메인 CTA 버튼 클릭 시 cta_click 이벤트 (event_category: primary_cta) 발생 확인
-- [ ] 개별 기능 CTA 클릭 시 cta_click 이벤트 (event_category: individual_feature_cta) 발생 확인
-- [ ] 기능 살펴보기 CTA 클릭 시 cta_click 이벤트 (event_category: explore_cta) 발생 확인
-- [ ] 인터뷰 참여 CTA 클릭 시 cta_click 이벤트 (event_category: interview_cta) 발생 확인
-- [ ] 모달 닫기 버튼 클릭 시 cta_click 이벤트 (event_category: modal_close) 발생 확인
-- [ ] 폼 제출 성공 시 cta_click 이벤트 (event_category: form_submit) 발생 확인
-- [ ] PSF 모달 투표 시 cta_click 이벤트 (event_category: psf_vote) 발생 확인
-- [ ] 리드 생성 시 generate_lead 이벤트 발생 확인 (Enhanced Ecommerce 구조)
+### GA4 개별 이벤트 트래킹
+- [ ] 탭 전환 시 `tab_switch` 이벤트 발생 확인
+- [ ] 섹션 50% 이상 노출 시 `section_view` 이벤트 발생 확인
+- [ ] 메인 CTA 버튼 클릭 시 `primary_cta_click` 이벤트 발생 확인
+- [ ] 기능 살펴보기 CTA 클릭 시 `explore_features_click` 이벤트 발생 확인
+- [ ] 인터뷰 참여 CTA 클릭 시 `interview_cta_click` 이벤트 발생 확인
+- [ ] 모달 닫기 버튼 클릭 시 `modal_close` 이벤트 발생 확인
+- [ ] 폼 제출 성공 시 `form_submit` 이벤트 발생 확인
+- [ ] PSF 모달 투표 시 `psf_vote` 이벤트 발생 확인
+- [ ] 리드 생성 시 `generate_lead` 이벤트 발생 확인 (Enhanced Ecommerce 구조)
+
+### 개별 기능 CTA 이벤트 트래킹
+**배우용 기능:**
+- [ ] 영상 프로필 CTA 클릭 시 `video_profile_click` 이벤트 발생 확인
+- [ ] 상호리뷰 평판 시스템 CTA 클릭 시 `review_system_click` 이벤트 발생 확인
+- [ ] 공정한 매칭 CTA 클릭 시 `fair_matching_click` 이벤트 발생 확인
+
+**감독용 기능:**
+- [ ] 신뢰 온도 시스템 CTA 클릭 시 `trust_score_click` 이벤트 발생 확인
+- [ ] 표준 근로계약서 자동화 CTA 클릭 시 `contract_auto_click` 이벤트 발생 확인
+- [ ] 영상 포트폴리오 검색 CTA 클릭 시 `video_search_click` 이벤트 발생 확인
 
 ### 사용자 참여도 및 리텐션 트래킹
 - [ ] 스크롤 25%, 50%, 75% 지점에서 scroll 이벤트 발생 확인
@@ -229,21 +272,22 @@ https://your-domain.com/?utm_source=test&utm_medium=social&utm_campaign=launch
 - [ ] preferred_tab: 사용자가 선택한 탭 기록 확인
 - [ ] engagement_level: 'low' 또는 'high' 설정 확인 (3분 이상 체류 시)
 
-### 개별 기능 CTA 테스트 (총 6개)
+### 기능별 모달 및 이벤트 테스트
 **배우용 기능:**
-- [ ] 영상 프로필 CTA → 모달 표시 및 이벤트 전송 확인
-- [ ] 상호리뷰 평판 시스템 CTA → 모달 표시 및 이벤트 전송 확인
-- [ ] 공정한 매칭 CTA → 모달 표시 및 이벤트 전송 확인
+- [ ] 영상 프로필 CTA → `video_profile_click` 이벤트 + 모달 표시 확인
+- [ ] 상호리뷰 평판 시스템 CTA → `review_system_click` 이벤트 + 모달 표시 확인
+- [ ] 공정한 매칭 CTA → `fair_matching_click` 이벤트 + 모달 표시 확인
 
 **감독용 기능:**
-- [ ] 신뢰 온도 시스템 CTA → 모달 표시 및 이벤트 전송 확인
-- [ ] 표준 근로계약서 자동화 CTA → 모달 표시 및 이벤트 전송 확인
-- [ ] 영상 포트폴리오 검색 CTA → 모달 표시 및 이벤트 전송 확인
+- [ ] 신뢰 온도 시스템 CTA → `trust_score_click` 이벤트 + 모달 표시 확인
+- [ ] 표준 근로계약서 자동화 CTA → `contract_auto_click` 이벤트 + 모달 표시 확인
+- [ ] 영상 포트폴리오 검색 CTA → `video_search_click` 이벤트 + 모달 표시 확인
 
 ### 기술적 검증
 - [ ] UTM 파라미터 파싱 및 모든 이벤트에 포함 확인
-- [ ] GA4에서 cta_click 이벤트 수신 확인
+- [ ] GA4에서 모든 개별 이벤트 수신 확인 (17개 고유 이벤트)
 - [ ] 개발자 도구에서 gtag 이벤트 전송 확인
+- [ ] GA4 실시간 보고서에서 이벤트별 개별 집계 확인
 - [ ] '기능이 준비 중입니다!' 모달 정상 작동 확인
 
 ### UI/UX 검증

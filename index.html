@@ -881,9 +881,9 @@
             // Update URL hash
             window.location.hash = tab;
             
-            // GA4 이벤트 전송
-            gtag('event', 'cta_click', {
-                event_category: 'tab_switch',
+            // GA4 이벤트 전송 - 고유 이벤트 이름
+            gtag('event', 'tab_switch', {
+                event_category: 'navigation',
                 event_label: tab,
                 tab: tab,
                 ...getUTMParams()
@@ -902,10 +902,10 @@
         });
 
         // CTA Button Click Handler
-        // GA4 이벤트: cta_click (event_category: primary_cta)
+        // GA4 이벤트: primary_cta_click
         function handleCTA(role) {
-            gtag('event', 'cta_click', {
-                event_category: 'primary_cta',
+            gtag('event', 'primary_cta_click', {
+                event_category: 'cta',
                 event_label: `${role}_start`,
                 tab: getCurrentTab(),
                 role: role,
@@ -920,11 +920,11 @@
         }
 
         // Individual Feature CTA Click Handler
-        // GA4 이벤트: cta_click (event_category: individual_feature_cta)
+        // GA4 이벤트: feature_cta_click
         function handleIndividualFeatureCTA(featureId, featureName) {
-            // GA4 이벤트 전송
-            gtag('event', 'cta_click', {
-                event_category: 'individual_feature_cta',
+            // GA4 이벤트 전송 - 기능별 고유 이벤트
+            gtag('event', `${featureId}_click`, {
+                event_category: 'feature_cta',
                 event_label: featureId,
                 tab: getCurrentTab(),
                 feature: featureId,
@@ -960,8 +960,8 @@
 
         // Legacy Feature CTA Handler (기존 기능 유지)
         function handleFeatureCTA(role, feature) {
-            gtag('event', 'cta_click', {
-                event_category: 'feature_cta',
+            gtag('event', 'legacy_feature_click', {
+                event_category: 'legacy_cta',
                 event_label: feature,
                 tab: getCurrentTab(),
                 feature: feature,
@@ -977,9 +977,9 @@
         }
 
         // Feature Explore CTA Click Handler
-        // GA4 이벤트: cta_click (event_category: explore_cta)
+        // GA4 이벤트: explore_features_click
         function handleFeatureExplore(role) {
-            gtag('event', 'cta_click', {
+            gtag('event', 'explore_features_click', {
                 event_category: 'explore_cta',
                 event_label: `explore_${role}`,
                 tab: getCurrentTab(),
@@ -1013,9 +1013,9 @@
             
             // Simulate form submission delay
             setTimeout(() => {
-                // GA4 이벤트 전송
-                gtag('event', 'cta_click', {
-                    event_category: 'form_submit',
+                // GA4 이벤트 전송 - 폼 제출 고유 이벤트
+                gtag('event', 'form_submit', {
+                    event_category: 'conversion',
                     event_label: `lead_${role}`,
                     tab: getCurrentTab(),
                     role: role,
@@ -1053,10 +1053,10 @@
         }
 
         // Interview CTA Click Handler
-        // GA4 이벤트: cta_click (event_category: interview_cta)
+        // GA4 이벤트: interview_cta_click
         function handleInterviewCTA(role) {
-            gtag('event', 'cta_click', {
-                event_category: 'interview_cta',
+            gtag('event', 'interview_cta_click', {
+                event_category: 'engagement_cta',
                 event_label: `interview_${role}`,
                 tab: getCurrentTab(),
                 role: role,
@@ -1068,10 +1068,10 @@
         }
 
         // Modal Close Handler
-        // GA4 이벤트: cta_click (event_category: modal_close)
+        // GA4 이벤트: modal_close
         function handleModalClose(modalType) {
-            gtag('event', 'cta_click', {
-                event_category: 'modal_close',
+            gtag('event', 'modal_close', {
+                event_category: 'ui_interaction',
                 event_label: `close_${modalType}`,
                 tab: getCurrentTab(),
                 modal_type: modalType,
@@ -1087,10 +1087,10 @@
         }
 
         // PSF Vote Handler
-        // GA4 이벤트: cta_click (event_category: psf_vote)
+        // GA4 이벤트: psf_vote
         function handlePSF(vote) {
-            gtag('event', 'cta_click', {
-                event_category: 'psf_vote',
+            gtag('event', 'psf_vote', {
+                event_category: 'feedback',
                 event_label: vote === 'yes' ? 'psf_yes' : 'psf_no',
                 tab: getCurrentTab(),
                 vote: vote,
@@ -1125,8 +1125,8 @@
                         if (!observedSections.has(sectionKey)) {
                             observedSections.add(sectionKey);
                             
-                            gtag('event', 'cta_click', {
-                                event_category: 'section_view',
+                            gtag('event', 'section_view', {
+                                event_category: 'engagement',
                                 event_label: `view_${sectionId}`,
                                 section: sectionId,
                                 tab: getCurrentTab(),
