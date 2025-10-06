@@ -35,19 +35,34 @@
 1. **tab_switch**: 탭 전환 (배우용/감독용)
 2. **section_view**: 섹션 50% 이상 노출
 3. **primary_cta**: 메인 CTA 버튼 클릭
-4. **feature_cta**: 핵심 기능별 CTA 클릭
-5. **explore_cta**: 기능 살펴보기 CTA 클릭
-6. **form_submit**: 사전 신청 폼 제출
-7. **psf_vote**: PSF 모달 투표
+4. **feature_cta**: 핵심 기능별 CTA 클릭 (레거시)
+5. **individual_feature_cta**: 개별 기능 CTA 클릭 (신규)
+6. **explore_cta**: 기능 살펴보기 CTA 클릭
+7. **form_submit**: 사전 신청 폼 제출
+8. **psf_vote**: PSF 모달 투표
 
 ### GA4 이벤트 구조
+
+**개별 기능 CTA 이벤트 (신규):**
 ```javascript
-// GA4로 전송되는 이벤트 예시
 gtag('event', 'cta_click', {
-  event_category: 'feature_cta',
+  event_category: 'individual_feature_cta',
   event_label: 'video_profile',
   tab: 'actor',
   feature: 'video_profile',
+  feature_name: '영상 프로필',
+  utm_source: '...',
+  utm_medium: '...',
+  utm_campaign: '...'
+});
+```
+
+**기타 CTA 이벤트:**
+```javascript
+gtag('event', 'cta_click', {
+  event_category: 'primary_cta',
+  event_label: 'actor_start',
+  tab: 'actor',
   role: 'actor',
   utm_source: '...',
   utm_medium: '...',
@@ -57,9 +72,27 @@ gtag('event', 'cta_click', {
 
 ## 🎯 측정 가능한 지표
 
-- 탭별 사용자 선호도 (배우 vs 감독)
-- 핵심 기능별 관심도 (클릭률)
-- UTM 캠페인별 전환율
+### 사용자 행동 분석
+- **탭별 사용자 선호도**: 배우 vs 감독 탭 사용률
+- **개별 기능별 관심도**: 6개 핵심 기능 클릭률 비교
+- **사용자 여정 분석**: 섹션별 체류 시간 및 이탈률
+- **UTM 캠페인 효과**: 소스별 전환율 및 기능 관심도
+
+### 기능별 상세 분석
+**배우용 기능:**
+- 영상 프로필 (`video_profile`)
+- 상호리뷰 평판 시스템 (`review_system`)
+- 공정한 매칭 (`fair_matching`)
+
+**감독용 기능:**
+- 신뢰 온도 시스템 (`trust_score`)
+- 표준 근로계약서 자동화 (`contract_auto`)
+- 영상 포트폴리오 검색 (`video_search`)
+
+### 비즈니스 인사이트
+- 어떤 기능이 리드 전환에 가장 효과적인지
+- 사용자 세그먼트별 기능 선호도
+- 기능 개발 우선순위 결정 데이터
 - 리드 생성 퍼널 분석
 - PSF(Problem-Solution Fit) 검증
 
@@ -94,10 +127,10 @@ npx serve .
 ## 🔧 설정 방법
 
 ### 1. GA4 측정 ID 설정
-`index.html`에서 GA4 측정 ID를 실제 값으로 교체:
+`index.html`에서 GA4 측정 ID가 이미 설정되어 있습니다:
 ```javascript
-// 현재: GA4-MEASUREMENT-ID
-// 실제 GA4 측정 ID로 교체 필요 (예: G-XXXXXXXXXX)
+// 현재 설정: G-S43Q2VXZLJ
+// 필요시 실제 GA4 측정 ID로 교체
 ```
 
 ### 2. UTM 파라미터 테스트
@@ -121,23 +154,61 @@ https://your-domain.com/?utm_source=test&utm_medium=social&utm_campaign=launch
 - **Accent**: Purple (`#9333ea`)
 
 ### 타이포그래피
-- **Font Family**: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR'
+- **Font Family**: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR'
 - **Sizes**: Hero (5xl-7xl), Section (4xl-5xl), Body (xl-2xl)
+
+## 🎨 새로운 UI/UX 기능
+
+### 로딩 및 인터랙션
+- **로딩 스크린**: 브랜드 일관성 있는 스피너 애니메이션
+- **스크롤 프로그레스**: 상단 그라디언트 진행 바
+- **부드러운 스크롤**: scroll-behavior: smooth 적용
+- **마이크로 애니메이션**: 버튼 hover/active 상태 개선
+
+### 포트폴리오 배경
+- **Netflix 스타일**: 6x4 그리드 배우 포트폴리오 썸네일
+- **동적 애니메이션**: 플로팅 효과 및 featured 카드 강조
+- **반응형 그리드**: 모바일(3x6), 태블릿(4x5), 데스크톱(6x4)
+
+### 기능 준비 중 모달
+- **개별 기능 추적**: 6개 핵심 기능별 개별 CTA 트래킹
+- **사용자 피드백**: '기능이 준비 중입니다!' 모달
+- **동적 콘텐츠**: 클릭한 기능명 자동 표시
 
 ## 🧪 QA 체크리스트
 
+### GA4 이벤트 트래킹
 - [ ] 탭 전환 시 cta_click 이벤트 (event_category: tab_switch) 발생 확인
 - [ ] 섹션 50% 이상 노출 시 cta_click 이벤트 (event_category: section_view) 발생 확인
 - [ ] 메인 CTA 버튼 클릭 시 cta_click 이벤트 (event_category: primary_cta) 발생 확인
-- [ ] 핵심 기능 CTA 클릭 시 cta_click 이벤트 (event_category: feature_cta) 발생 확인
+- [ ] 개별 기능 CTA 클릭 시 cta_click 이벤트 (event_category: individual_feature_cta) 발생 확인
 - [ ] 기능 살펴보기 CTA 클릭 시 cta_click 이벤트 (event_category: explore_cta) 발생 확인
 - [ ] 폼 제출 성공 시 cta_click 이벤트 (event_category: form_submit) 발생 확인
 - [ ] PSF 모달 투표 시 cta_click 이벤트 (event_category: psf_vote) 발생 확인
+
+### 개별 기능 CTA 테스트 (총 6개)
+**배우용 기능:**
+- [ ] 영상 프로필 CTA → 모달 표시 및 이벤트 전송 확인
+- [ ] 상호리뷰 평판 시스템 CTA → 모달 표시 및 이벤트 전송 확인
+- [ ] 공정한 매칭 CTA → 모달 표시 및 이벤트 전송 확인
+
+**감독용 기능:**
+- [ ] 신뢰 온도 시스템 CTA → 모달 표시 및 이벤트 전송 확인
+- [ ] 표준 근로계약서 자동화 CTA → 모달 표시 및 이벤트 전송 확인
+- [ ] 영상 포트폴리오 검색 CTA → 모달 표시 및 이벤트 전송 확인
+
+### 기술적 검증
 - [ ] UTM 파라미터 파싱 및 모든 이벤트에 포함 확인
 - [ ] GA4에서 cta_click 이벤트 수신 확인
 - [ ] 개발자 도구에서 gtag 이벤트 전송 확인
+- [ ] '기능이 준비 중입니다!' 모달 정상 작동 확인
+
+### UI/UX 검증
+- [ ] 로딩 스크린 정상 작동 확인
+- [ ] 스크롤 프로그레스 바 정상 작동 확인
 - [ ] 모바일 반응형 디자인 확인
 - [ ] 접근성 (키보드 네비게이션, 스크린 리더) 확인
+- [ ] 포트폴리오 배경 그리드 정상 표시 확인
 
 ## 📞 문의
 

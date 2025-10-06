@@ -223,7 +223,7 @@
                         <h3 class="text-2xl font-bold mb-4 text-white">영상 중심 프로필</h3>
                         <p class="text-gray-300 mb-8 leading-relaxed">짧은 연기 영상으로 당신의 실력을 직접 증명하세요. 말이 아닌 연기로 말하세요.</p>
                         <button 
-                            onclick="handleFeatureCTA('actor', 'video_profile')"
+                            onclick="handleIndividualFeatureCTA('video_profile', '영상 프로필')"
                             class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
                             영상 프로필 만들기 →
                         </button>
@@ -233,7 +233,7 @@
                         <h3 class="text-2xl font-bold mb-4 text-white">상호리뷰 평판 시스템</h3>
                         <p class="text-gray-300 mb-8 leading-relaxed">협업했던 감독과 배우가 서로를 평가. 신뢰도 높은 배우가 더 많은 기회를 얻습니다.</p>
                         <button 
-                            onclick="handleFeatureCTA('actor', 'review_system')"
+                            onclick="handleIndividualFeatureCTA('review_system', '상호리뷰 평판 시스템')"
                             class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
                             평판 시스템 알아보기 →
                         </button>
@@ -243,7 +243,7 @@
                         <h3 class="text-2xl font-bold mb-4 text-white">공정한 매칭</h3>
                         <p class="text-gray-300 mb-8 leading-relaxed">인맥이 아닌 조건과 실력으로만 매칭. 누구에게나 열린 기회.</p>
                         <button 
-                            onclick="handleFeatureCTA('actor', 'fair_matching')"
+                            onclick="handleIndividualFeatureCTA('fair_matching', '공정한 매칭')"
                             class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
                             매칭 시스템 체험하기 →
                         </button>
@@ -424,8 +424,8 @@
                         <h3 class="text-2xl font-bold mb-4">신뢰 온도 시스템</h3>
                         <p class="text-gray-300 mb-6">이전 협업 리뷰 기반 신뢰도 점수. 노쇼 이력은 투명하게 공개됩니다.</p>
                         <button 
-                            onclick="handleFeatureCTA('director', 'trust_score')"
-                            class="w-full bg-purple-600/20 hover:bg-purple-600/40 border border-purple-500/30 py-3 rounded-lg font-semibold transition-all">
+                            onclick="handleIndividualFeatureCTA('trust_score', '신뢰 온도 시스템')"
+                            class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
                             신뢰 온도 확인하기 →
                         </button>
                     </div>
@@ -434,8 +434,8 @@
                         <h3 class="text-2xl font-bold mb-4">표준 근로계약서 자동화</h3>
                         <p class="text-gray-300 mb-6">법률 검토 완료된 템플릿으로 클릭 몇 번이면 계약 완료. 분쟁 걱정 없이 안전하게.</p>
                         <button 
-                            onclick="handleFeatureCTA('director', 'contract_auto')"
-                            class="w-full bg-purple-600/20 hover:bg-purple-600/40 border border-purple-500/30 py-3 rounded-lg font-semibold transition-all">
+                            onclick="handleIndividualFeatureCTA('contract_auto', '표준 근로계약서 자동화')"
+                            class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
                             계약서 템플릿 보기 →
                         </button>
                     </div>
@@ -444,8 +444,8 @@
                         <h3 class="text-2xl font-bold mb-4">영상 포트폴리오 검색</h3>
                         <p class="text-gray-300 mb-6">조건 필터 + 실제 연기 영상 확인. 한 번에 적합한 배우를 찾으세요.</p>
                         <button 
-                            onclick="handleFeatureCTA('director', 'video_search')"
-                            class="w-full bg-purple-600/20 hover:bg-purple-600/40 border border-purple-500/30 py-3 rounded-lg font-semibold transition-all">
+                            onclick="handleIndividualFeatureCTA('video_search', '영상 포트폴리오 검색')"
+                            class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
                             배우 검색 시작하기 →
                         </button>
                     </div>
@@ -523,6 +523,28 @@
         </section>
     </main>
 
+    <!-- Feature Coming Soon Modal -->
+    <div id="feature-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4" onclick="closeFeatureModal(event)">
+        <div class="bg-cinema-800 p-8 rounded-2xl shadow-2xl max-w-lg w-full border border-purple-500/30" onclick="event.stopPropagation()">
+            <div class="text-center">
+                <div class="text-6xl mb-4">🚧</div>
+                <h3 class="text-2xl font-bold mb-4 text-white">기능이 준비 중입니다!</h3>
+                <p class="text-gray-300 mb-6">곧 멋진 기능으로 찾아뵙겠습니다.</p>
+                <div class="bg-gradient-to-r from-purple-900/50 to-indigo-900/50 p-4 rounded-lg mb-6">
+                    <p class="text-sm text-purple-200">
+                        <span class="font-semibold" id="feature-name">기능</span>에 관심을 가져주셔서 감사합니다!<br>
+                        런칭 소식을 받고 싶으시면 사전 신청해 주세요.
+                    </p>
+                </div>
+                <button 
+                    onclick="closeFeatureModal()"
+                    class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-3 rounded-lg font-semibold transition-all">
+                    확인
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- PSF Modal -->
     <div id="psf-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4" onclick="closePSFModal(event)">
         <div class="bg-cinema-800 p-8 rounded-2xl shadow-2xl max-w-lg w-full" onclick="event.stopPropagation()">
@@ -557,6 +579,7 @@
          * [ ] 섹션 50% 이상 노출 시 cta_click 이벤트 발생 확인 (event_category: section_view)
          * [ ] CTA 버튼 클릭 시 cta_click 이벤트 발생 확인 (event_category: primary_cta)
          * [ ] 핵심 기능 CTA 클릭 시 cta_click 이벤트 발생 확인 (event_category: feature_cta)
+         * [ ] 개별 기능 CTA 클릭 시 cta_click 이벤트 발생 확인 (event_category: individual_feature_cta)
          * [ ] 기능 살펴보기 CTA 클릭 시 cta_click 이벤트 발생 확인 (event_category: explore_cta)
          * [ ] 폼 제출 성공 시 cta_click 이벤트 발생 확인 (event_category: form_submit)
          * [ ] PSF 모달 투표 시 cta_click 이벤트 발생 확인 (event_category: psf_vote)
@@ -661,8 +684,36 @@
             formSection.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Feature CTA Click Handler
-        // GA4 이벤트: cta_click (event_category: feature_cta)
+        // Individual Feature CTA Click Handler
+        // GA4 이벤트: cta_click (event_category: individual_feature_cta)
+        function handleIndividualFeatureCTA(featureId, featureName) {
+            // GA4 이벤트 전송
+            gtag('event', 'cta_click', {
+                event_category: 'individual_feature_cta',
+                event_label: featureId,
+                tab: getCurrentTab(),
+                feature: featureId,
+                feature_name: featureName,
+                ...getUTMParams()
+            });
+            
+            // 모달 열기
+            openFeatureModal(featureName);
+        }
+
+        // Feature Modal Functions
+        function openFeatureModal(featureName) {
+            document.getElementById('feature-name').textContent = featureName;
+            document.getElementById('feature-modal').classList.remove('hidden');
+        }
+
+        function closeFeatureModal(event) {
+            if (!event || event.target === event.currentTarget) {
+                document.getElementById('feature-modal').classList.add('hidden');
+            }
+        }
+
+        // Legacy Feature CTA Handler (기존 기능 유지)
         function handleFeatureCTA(role, feature) {
             gtag('event', 'cta_click', {
                 event_category: 'feature_cta',
