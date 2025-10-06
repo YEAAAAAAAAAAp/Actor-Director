@@ -40,6 +40,8 @@
 - **feature_cta**: 핵심 기능별 CTA 클릭 (레거시)
 - **individual_feature_cta**: 개별 기능 CTA 클릭 (신규)
 - **explore_cta**: 기능 살펴보기 CTA 클릭
+- **interview_cta**: 인터뷰 참여 CTA 클릭 (신규)
+- **modal_close**: 모달 닫기 버튼 클릭 (신규)
 - **form_submit**: 사전 신청 폼 제출
 - **psf_vote**: PSF 모달 투표
 
@@ -207,6 +209,8 @@ https://your-domain.com/?utm_source=test&utm_medium=social&utm_campaign=launch
 - [ ] 메인 CTA 버튼 클릭 시 cta_click 이벤트 (event_category: primary_cta) 발생 확인
 - [ ] 개별 기능 CTA 클릭 시 cta_click 이벤트 (event_category: individual_feature_cta) 발생 확인
 - [ ] 기능 살펴보기 CTA 클릭 시 cta_click 이벤트 (event_category: explore_cta) 발생 확인
+- [ ] 인터뷰 참여 CTA 클릭 시 cta_click 이벤트 (event_category: interview_cta) 발생 확인
+- [ ] 모달 닫기 버튼 클릭 시 cta_click 이벤트 (event_category: modal_close) 발생 확인
 - [ ] 폼 제출 성공 시 cta_click 이벤트 (event_category: form_submit) 발생 확인
 - [ ] PSF 모달 투표 시 cta_click 이벤트 (event_category: psf_vote) 발생 확인
 - [ ] 리드 생성 시 generate_lead 이벤트 발생 확인 (Enhanced Ecommerce 구조)

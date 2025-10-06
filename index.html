@@ -335,7 +335,7 @@
                     <h3 class="text-3xl font-bold mb-4">신청이 완료되었습니다!</h3>
                     <p class="text-gray-300 mb-6">런칭 소식을 가장 먼저 알려드릴게요.</p>
                     <button 
-                        onclick="openPSFModal()"
+                        onclick="handleInterviewCTA('actor')"
                         class="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-lg font-semibold transition-all">
                         1분 인터뷰 참여하고 추가 혜택 받기 →
                     </button>
@@ -536,7 +536,7 @@
                     <h3 class="text-3xl font-bold mb-4">신청이 완료되었습니다!</h3>
                     <p class="text-gray-300 mb-6">런칭 소식을 가장 먼저 알려드릴게요.</p>
                     <button 
-                        onclick="openPSFModal()"
+                        onclick="handleInterviewCTA('director')"
                         class="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-lg font-semibold transition-all">
                         1분 인터뷰 참여하고 추가 혜택 받기 →
                     </button>
@@ -559,7 +559,7 @@
                     </p>
                 </div>
                 <button 
-                    onclick="closeFeatureModal()"
+                    onclick="handleModalClose('feature')"
                     class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-3 rounded-lg font-semibold transition-all">
                     확인
                 </button>
@@ -585,7 +585,7 @@
                 </button>
             </div>
             <button 
-                onclick="closePSFModal()"
+                onclick="handleModalClose('psf')"
                 class="mt-6 w-full text-gray-400 hover:text-white transition-all">
                 닫기
             </button>
@@ -630,10 +630,14 @@
 
         // Get UTM parameters
         function getUTMParams() {
+            const utmSourceEl = document.getElementById('utm_source');
+            const utmMediumEl = document.getElementById('utm_medium');
+            const utmCampaignEl = document.getElementById('utm_campaign');
+            
             return {
-                utm_source: document.getElementById('utm_source').value,
-                utm_medium: document.getElementById('utm_medium').value,
-                utm_campaign: document.getElementById('utm_campaign').value
+                utm_source: utmSourceEl ? utmSourceEl.value : 'direct',
+                utm_medium: utmMediumEl ? utmMediumEl.value : 'none',
+                utm_campaign: utmCampaignEl ? utmCampaignEl.value : 'none'
             };
         }
 
@@ -645,7 +649,14 @@
             
             // Track scroll depth
             function updateScrollDepth() {
-                const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+                const scrollHeight = document.body.scrollHeight;
+                const windowHeight = window.innerHeight;
+                const scrollY = window.scrollY;
+                
+                // Prevent division by zero
+                if (scrollHeight <= windowHeight) return;
+                
+                const scrollPercent = Math.min(100, Math.round((scrollY / (scrollHeight - windowHeight)) * 100));
                 if (scrollPercent > scrollDepth) {
                     scrollDepth = scrollPercent;
                     
@@ -761,16 +772,22 @@
             // Track Core Web Vitals
             window.addEventListener('load', () => {
                 setTimeout(() => {
-                    const perfData = performance.getEntriesByType('navigation')[0];
-                    
-                    gtag('event', 'page_timing', {
-                        event_category: 'performance',
-                        event_label: 'load_time',
-                        page_load_time: Math.round(perfData.loadEventEnd - perfData.fetchStart),
-                        dom_content_loaded: Math.round(perfData.domContentLoadedEventEnd - perfData.fetchStart),
-                        tab: getCurrentTab(),
-                        ...getUTMParams()
-                    });
+                    try {
+                        const perfData = performance.getEntriesByType('navigation')[0];
+                        
+                        if (perfData && perfData.loadEventEnd && perfData.fetchStart) {
+                            gtag('event', 'page_timing', {
+                                event_category: 'performance',
+                                event_label: 'load_time',
+                                page_load_time: Math.round(perfData.loadEventEnd - perfData.fetchStart),
+                                dom_content_loaded: Math.round(perfData.domContentLoadedEventEnd - perfData.fetchStart),
+                                tab: getCurrentTab(),
+                                ...getUTMParams()
+                            });
+                        }
+                    } catch (error) {
+                        console.warn('Performance tracking error:', error);
+                    }
                 }, 0);
             });
         }
@@ -778,10 +795,38 @@
         // Session tracking for retention analysis
         function trackSession() {
             const sessionId = Date.now().toString();
-            const isReturningUser = localStorage.getItem('actor_director_visited');
+            let isReturningUser = false;
             
-            if (!isReturningUser) {
-                localStorage.setItem('actor_director_visited', 'true');
+            try {
+                isReturningUser = localStorage.getItem('actor_director_visited');
+                
+                if (!isReturningUser) {
+                    localStorage.setItem('actor_director_visited', 'true');
+                    gtag('event', 'first_visit', {
+                        event_category: 'user_lifecycle',
+                        event_label: 'new_user',
+                        session_id: sessionId,
+                        ...getUTMParams()
+                    });
+                    
+                    gtag('set', 'user_properties', {
+                        user_type: 'new'
+                    });
+                } else {
+                    gtag('event', 'return_visit', {
+                        event_category: 'user_lifecycle',
+                        event_label: 'returning_user',
+                        session_id: sessionId,
+                        ...getUTMParams()
+                    });
+                    
+                    gtag('set', 'user_properties', {
+                        user_type: 'returning'
+                    });
+                }
+            } catch (error) {
+                console.warn('localStorage access error:', error);
+                // Fallback: treat as new user
                 gtag('event', 'first_visit', {
                     event_category: 'user_lifecycle',
                     event_label: 'new_user',
@@ -791,17 +836,6 @@
                 
                 gtag('set', 'user_properties', {
                     user_type: 'new'
-                });
-            } else {
-                gtag('event', 'return_visit', {
-                    event_category: 'user_lifecycle',
-                    event_label: 'returning_user',
-                    session_id: sessionId,
-                    ...getUTMParams()
-                });
-                
-                gtag('set', 'user_properties', {
-                    user_type: 'returning'
                 });
             }
             
@@ -815,7 +849,8 @@
 
         // Get current active tab
         function getCurrentTab() {
-            return document.getElementById('actor-content').classList.contains('active') ? 'actor' : 'director';
+            const actorContent = document.getElementById('actor-content');
+            return (actorContent && actorContent.classList.contains('active')) ? 'actor' : 'director';
         }
 
         // Tab Switching Function
@@ -879,7 +914,9 @@
             
             // Scroll to form
             const formSection = document.querySelector(`#${getCurrentTab()}-content #form`);
-            formSection.scrollIntoView({ behavior: 'smooth' });
+            if (formSection) {
+                formSection.scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
         // Individual Feature CTA Click Handler
@@ -901,13 +938,23 @@
 
         // Feature Modal Functions
         function openFeatureModal(featureName) {
-            document.getElementById('feature-name').textContent = featureName;
-            document.getElementById('feature-modal').classList.remove('hidden');
+            const featureNameEl = document.getElementById('feature-name');
+            const featureModalEl = document.getElementById('feature-modal');
+            
+            if (featureNameEl) {
+                featureNameEl.textContent = featureName;
+            }
+            if (featureModalEl) {
+                featureModalEl.classList.remove('hidden');
+            }
         }
 
         function closeFeatureModal(event) {
             if (!event || event.target === event.currentTarget) {
-                document.getElementById('feature-modal').classList.add('hidden');
+                const featureModalEl = document.getElementById('feature-modal');
+                if (featureModalEl) {
+                    featureModalEl.classList.add('hidden');
+                }
             }
         }
 
@@ -924,7 +971,9 @@
             
             // Scroll to form
             const formSection = document.querySelector(`#${getCurrentTab()}-content #form`);
-            formSection.scrollIntoView({ behavior: 'smooth' });
+            if (formSection) {
+                formSection.scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
         // Feature Explore CTA Click Handler
@@ -940,7 +989,9 @@
             
             // Scroll to solution section
             const solutionSection = document.querySelector(`#${getCurrentTab()}-content #solution`);
-            solutionSection.scrollIntoView({ behavior: 'smooth' });
+            if (solutionSection) {
+                solutionSection.scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
         // Form Submit Handler
@@ -977,18 +1028,61 @@
                 
                 // Hide form and show thank you card
                 form.classList.add('hidden');
-                document.getElementById(`${role}-thankyou`).classList.remove('hidden');
+                const thankYouEl = document.getElementById(`${role}-thankyou`);
+                if (thankYouEl) {
+                    thankYouEl.classList.remove('hidden');
+                }
             }, 1500);
         }
 
         // PSF Modal Functions
         function openPSFModal() {
-            document.getElementById('psf-modal').classList.remove('hidden');
+            const psfModalEl = document.getElementById('psf-modal');
+            if (psfModalEl) {
+                psfModalEl.classList.remove('hidden');
+            }
         }
 
         function closePSFModal(event) {
             if (!event || event.target === event.currentTarget) {
-                document.getElementById('psf-modal').classList.add('hidden');
+                const psfModalEl = document.getElementById('psf-modal');
+                if (psfModalEl) {
+                    psfModalEl.classList.add('hidden');
+                }
+            }
+        }
+
+        // Interview CTA Click Handler
+        // GA4 이벤트: cta_click (event_category: interview_cta)
+        function handleInterviewCTA(role) {
+            gtag('event', 'cta_click', {
+                event_category: 'interview_cta',
+                event_label: `interview_${role}`,
+                tab: getCurrentTab(),
+                role: role,
+                ...getUTMParams()
+            });
+            
+            // Open PSF modal
+            openPSFModal();
+        }
+
+        // Modal Close Handler
+        // GA4 이벤트: cta_click (event_category: modal_close)
+        function handleModalClose(modalType) {
+            gtag('event', 'cta_click', {
+                event_category: 'modal_close',
+                event_label: `close_${modalType}`,
+                tab: getCurrentTab(),
+                modal_type: modalType,
+                ...getUTMParams()
+            });
+            
+            // Close appropriate modal
+            if (modalType === 'feature') {
+                closeFeatureModal();
+            } else if (modalType === 'psf') {
+                closePSFModal();
             }
         }
 
