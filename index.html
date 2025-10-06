@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actor-Director | 영상 중심 캐스팅 플랫폼</title>
+    <meta name="description" content="배우는 영상 프로필로 캐스팅 받고, 감독은 검증된 배우와 안전하게 협업하세요.">
+    
+    <!-- TODO: GTM-XXXXXXX를 실제 Google Tag Manager 컨테이너 ID로 교체하세요 -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+    <!-- End Google Tag Manager -->
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cinema: {
+                            900: '#0a0a0a',
+                            800: '#1a1a1a',
+                            700: '#2a2a2a',
+                            600: '#3a3a3a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="bg-cinema-900 text-white">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/gtm.ns.html?id=GTM-XXXXXXX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- UTM Parameters Hidden Storage -->
+    <input type="hidden" id="utm_source" value="">
+    <input type="hidden" id="utm_medium" value="">
+    <input type="hidden" id="utm_campaign" value="">
+
+    <!-- Header with Tab Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-cinema-800/95 backdrop-blur-sm border-b border-cinema-600">
+        <nav class="container mx-auto px-4 py-4" role="navigation" aria-label="메인 탭 네비게이션">
+            <div class="flex items-center justify-between">
+                <div class="text-xl font-bold gradient-text">Actor·Director</div>
+                <div class="flex gap-4" role="tablist">
+                    <button 
+                        class="tab-btn px-6 py-2 rounded-lg transition-all font-semibold"
+                        role="tab"
+                        aria-selected="true"
+                        aria-controls="actor-content"
+                        data-tab="actor"
+                        onclick="switchTab('actor')">
+                        배우용
+                    </button>
+                    <button 
+                        class="tab-btn px-6 py-2 rounded-lg transition-all font-semibold"
+                        role="tab"
+                        aria-selected="false"
+                        aria-controls="director-content"
+                        data-tab="director"
+                        onclick="switchTab('director')">
+                        감독·제작자용
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Actor Content -->
+    <main id="actor-content" class="tab-content active pt-24" role="tabpanel" aria-labelledby="actor-tab">
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-screen flex items-center justify-center px-4 py-20" data-section="hero">
+            <div class="container mx-auto max-w-6xl text-center">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                    프로필만 돌리지 말고,<br>
+                    <span class="gradient-text">당신의 연기로 캐스팅 받으세요.</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 mb-12">
+                    영상 중심 프로필 · 상호리뷰 평판 · 공정한 기회
+                </p>
+                <button 
+                    class="cta-btn bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 px-8 py-4 rounded-xl text-lg font-semibold transition-all transform hover:scale-105"
+                    data-role="actor"
+                    onclick="handleCTA('actor')">
+                    배우로 시작하기 →
+                </button>
+            </div>
+        </section>
+
+        <!-- Problem Section -->
+        <section id="problem" class="py-20 px-4 bg-cinema-800/50" data-section="problem">
+            <div class="container mx-auto max-w-6xl">
+                <h2 class="text-4xl md:text-5xl font-bold mb-12 text-center">이런 고민, 하고 계신가요?</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-cinema-700 p-8 rounded-2xl shadow-xl">
+                        <div class="text-4xl mb-4">🤝</div>
+                        <h3 class="text-2xl font-bold mb-4">인맥이 전부인 캐스팅</h3>
+                        <p class="text-gray-300">아는 사람 없으면 기회조차 얻기 힘든 구조. 실력만으로는 부족한 현실.</p>
+                    </div>
+                    <div class="bg-cinema-700 p-8 rounded-2xl shadow-xl">
+                        <div class="text-4xl mb-4">📄</div>
+                        <h3 class="text-2xl font-bold mb-4">텍스트 프로필의 한계</h3>
+                        <p class="text-gray-300">사진과 이력서만으로는 연기력을 증명할 수 없어요. 실제 연기를 보여주고 싶은데...</p>
+                    </div>
+                    <div class="bg-cinema-700 p-8 rounded-2xl shadow-xl">
+                        <div class="text-4xl mb-4">⏰</div>
+                        <h3 class="text-2xl font-bold mb-4">끝없는 시간 낭비</h3>
+                        <p class="text-gray-300">오디션 갔는데 조건 안 맞고, 연락 두절... 매번 반복되는 악순환.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution Section -->
+        <section id="solution" class="py-20 px-4" data-section="solution">
+            <div class="container mx-auto max-w-6xl">
+                <h2 class="text-4xl md:text-5xl font-bold mb-12 text-center">Actor·Director가 해결합니다</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-gradient-to-br from-purple-900/50 to-indigo-900/50 p-8 rounded-2xl shadow-xl border border-purple-500/20 hover:border-purple-400/40 transition-all">
+                        <div class="text-4xl mb-4">🎬</div>
+                        <h3 class="text-2xl font-bold mb-4">영상 중심 프로필</h3>
+                        <p class="text-gray-300 mb-6">짧은 연기 영상으로 당신의 실력을 직접 증명하세요. 말이 아닌 연기로 말하세요.</p>
+                        <button 
+                            onclick="handleFeatureCTA('actor', 'video_profile')"
+                            class="w-full bg-purple-600/20 hover:bg-purple-600/40 border border-purple-500/30 py-3 rounded-lg font-semibold transition-all">
+                            영상 프로필 만들기 →
+                        </button>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-900/50 to-indigo-900/50 p-8 rounded-2xl shadow-xl border border-purple-500/20 hover:border-purple-400/40 transition-all">
+                        <div class="text-4xl mb-4">⭐</div>
+                        <h3 class="text-2xl font-bold mb-4">상호리뷰 평판 시스템</h3>
+                        <p class="text-gray-300 mb-6">협업했던 감독과 배우가 서로를 평가. 신뢰도 높은 배우가 더 많은 기회를 얻습니다.</p>
+                        <button 
+                            onclick="handleFeatureCTA('actor', 'review_system')"
+                            class="w-full bg-purple-600/20 hover:bg-purple-600/40 border border-purple-500/30 py-3 rounded-lg font-semibold transition-all">
+                            평판 시스템 알아보기 →
+                        </button>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-900/50 to-indigo-900/50 p-8 rounded-2xl shadow-xl border border-purple-500/20 hover:border-purple-400/40 transition-all">
+                        <div class="text-4xl mb-4">🎯</div>
+                        <h3 class="text-2xl font-bold mb-4">공정한 매칭</h3>
+                        <p class="text-gray-300 mb-6">인맥이 아닌 조건과 실력으로만 매칭. 누구에게나 열린 기회.</p>
+                        <button 
+                            onclick="handleFeatureCTA('actor', 'fair_matching')"
+                            class="w-full bg-purple-600/20 hover:bg-purple-600/40 border border-purple-500/30 py-3 rounded-lg font-semibold transition-all">
+                            매칭 시스템 체험하기 →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Form Section -->
+        <section id="form" class="py-20 px-4 bg-cinema-800/50" data-section="form">
+            <div class="container mx-auto max-w-2xl">
+                <h2 class="text-4xl md:text-5xl font-bold mb-8 text-center">사전 신청하고 얼리버드 혜택 받기</h2>
+                <p class="text-center text-gray-300 mb-12">런칭 시 우선 알림 + 첫 달 프리미엄 무료</p>
+                
+                <form id="lead-form" class="bg-cinema-700 p-8 rounded-2xl shadow-xl" onsubmit="handleFormSubmit(event, 'actor')">
+                    <div class="mb-6">
+                        <label for="actor-name" class="block text-sm font-semibold mb-2">이름 *</label>
+                        <input 
+                            type="text" 
+                            id="actor-name" 
+                            name="name"
+                            required 
+                            class="w-full px-4 py-3 bg-cinema-600 border border-cinema-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                            placeholder="홍길동">
+                    </div>
+                    <div class="mb-6">
+                        <label for="actor-email" class="block text-sm font-semibold mb-2">이메일 *</label>
+                        <input 
+                            type="email" 
+                            id="actor-email" 
+                            name="email"
+                            required 
+                            class="w-full px-4 py-3 bg-cinema-600 border border-cinema-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                            placeholder="actor@example.com">
+                    </div>
+                    <div class="mb-6">
+                        <label for="actor-position" class="block text-sm font-semibold mb-2">포지션</label>
+                        <input 
+                            type="text" 
+                            id="actor-position" 
+                            name="position"
+                            value="배우"
+                            readonly 
+                            class="w-full px-4 py-3 bg-cinema-800 border border-cinema-600 rounded-lg text-gray-400 cursor-not-allowed">
+                    </div>
+                    <div class="mb-6">
+                        <label class="flex items-start gap-3">
+                            <input 
+                                type="checkbox" 
+                                name="consent"
+                                required 
+                                class="mt-1 w-5 h-5 bg-cinema-600 border-cinema-500 rounded focus:ring-2 focus:ring-purple-500">
+                            <span class="text-sm text-gray-300">개인정보 수집 및 이용에 동의합니다. (마케팅 목적, 언제든 철회 가능)</span>
+                        </label>
+                    </div>
+                    <button 
+                        type="submit" 
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-lg font-bold text-lg transition-all">
+                        사전 신청하기
+                    </button>
+                </form>
+
+                <!-- Thank You Card (Hidden by default) -->
+                <div id="actor-thankyou" class="hidden bg-gradient-to-br from-purple-900/50 to-indigo-900/50 p-8 rounded-2xl shadow-xl border border-purple-500/20 text-center">
+                    <div class="text-6xl mb-4">🎉</div>
+                    <h3 class="text-3xl font-bold mb-4">신청이 완료되었습니다!</h3>
+                    <p class="text-gray-300 mb-6">런칭 소식을 가장 먼저 알려드릴게요.</p>
+                    <button 
+                        onclick="openPSFModal()"
+                        class="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-lg font-semibold transition-all">
+                        1분 인터뷰 참여하고 추가 혜택 받기 →
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Director Content -->
+    <main id="director-content" class="tab-content pt-24" role="tabpanel" aria-labelledby="director-tab">
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-screen flex items-center justify-center px-4 py-20" data-section="hero">
+            <div class="container mx-auto max-w-6xl text-center">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                    '노쇼' 걱정 끝.<br>
+                    <span class="gradient-text">평판이 검증된 배우가 기다립니다.</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 mb-12">
+                    신뢰 온도 · 표준 근로계약서 · 영상 포트폴리오
+                </p>
+                <button 
+                    class="cta-btn bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 px-8 py-4 rounded-xl text-lg font-semibold transition-all transform hover:scale-105"
+                    data-role="director"
+                    onclick="handleCTA('director')">
+                    감독으로 시작하기 →
+                </button>
+            </div>
+        </section>
+
+        <!-- Problem Section -->
+        <section id="problem" class="py-20 px-4 bg-cinema-800/50" data-section="problem">
+            <div class="container mx-auto max-w-6xl">
+                <h2 class="text-4xl md:text-5xl font-bold mb-12 text-center">이런 문제, 겪고 계신가요?</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-cinema-700 p-8 rounded-2xl shadow-xl">
+                        <div class="text-4xl mb-4">👻</div>
+                        <h3 class="text-2xl font-bold mb-4">예고 없는 노쇼</h3>
+                        <p class="text-gray-300">촬영 당일 연락두절. 전체 스케줄 붕괴. 신뢰할 수 있는 배우를 찾기가 너무 어렵습니다.</p>
+                    </div>
+                    <div class="bg-cinema-700 p-8 rounded-2xl shadow-xl">
+                        <div class="text-4xl mb-4">📝</div>
+                        <h3 class="text-2xl font-bold mb-4">계약서 리스크</h3>
+                        <p class="text-gray-300">구두 약속만 믿고 진행했다가 사후 분쟁. 표준화된 계약 프로세스가 절실해요.</p>
+                    </div>
+                    <div class="bg-cinema-700 p-8 rounded-2xl shadow-xl">
+                        <div class="text-4xl mb-4">💬</div>
+                        <h3 class="text-2xl font-bold mb-4">커뮤니케이션 과부하</h3>
+                        <p class="text-gray-300">수십 명에게 개별 연락, 조율... 캐스팅에만 며칠씩 소모되는 시간.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution Section -->
+        <section id="solution" class="py-20 px-4" data-section="solution">
+            <div class="container mx-auto max-w-6xl">
+                <h2 class="text-4xl md:text-5xl font-bold mb-12 text-center">Actor·Director가 해결합니다</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-gradient-to-br from-purple-900/50 to-indigo-900/50 p-8 rounded-2xl shadow-xl border border-purple-500/20 hover:border-purple-400/40 transition-all">
+                        <div class="text-4xl mb-4">🌡️</div>
+                        <h3 class="text-2xl font-bold mb-4">신뢰 온도 시스템</h3>
+                        <p class="text-gray-300 mb-6">이전 협업 리뷰 기반 신뢰도 점수. 노쇼 이력은 투명하게 공개됩니다.</p>
+                        <button 
+                            onclick="handleFeatureCTA('director', 'trust_score')"
+                            class="w-full bg-purple-600/20 hover:bg-purple-600/40 border border-purple-500/30 py-3 rounded-lg font-semibold transition-all">
+                            신뢰 온도 확인하기 →
+                        </button>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-900/50 to-indigo-900/50 p-8 rounded-2xl shadow-xl border border-purple-500/20 hover:border-purple-400/40 transition-all">
+                        <div class="text-4xl mb-4">📋</div>
+                        <h3 class="text-2xl font-bold mb-4">표준 근로계약서 자동화</h3>
+                        <p class="text-gray-300 mb-6">법률 검토 완료된 템플릿으로 클릭 몇 번이면 계약 완료. 분쟁 걱정 없이 안전하게.</p>
+                        <button 
+                            onclick="handleFeatureCTA('director', 'contract_auto')"
+                            class="w-full bg-purple-600/20 hover:bg-purple-600/40 border border-purple-500/30 py-3 rounded-lg font-semibold transition-all">
+                            계약서 템플릿 보기 →
+                        </button>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-900/50 to-indigo-900/50 p-8 rounded-2xl shadow-xl border border-purple-500/20 hover:border-purple-400/40 transition-all">
+                        <div class="text-4xl mb-4">🎥</div>
+                        <h3 class="text-2xl font-bold mb-4">영상 포트폴리오 검색</h3>
+                        <p class="text-gray-300 mb-6">조건 필터 + 실제 연기 영상 확인. 한 번에 적합한 배우를 찾으세요.</p>
+                        <button 
+                            onclick="handleFeatureCTA('director', 'video_search')"
+                            class="w-full bg-purple-600/20 hover:bg-purple-600/40 border border-purple-500/30 py-3 rounded-lg font-semibold transition-all">
+                            배우 검색 시작하기 →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Form Section -->
+        <section id="form" class="py-20 px-4 bg-cinema-800/50" data-section="form">
+            <div class="container mx-auto max-w-2xl">
+                <h2 class="text-4xl md:text-5xl font-bold mb-8 text-center">사전 신청하고 얼리버드 혜택 받기</h2>
+                <p class="text-center text-gray-300 mb-12">런칭 시 우선 알림 + 첫 달 프리미엄 무료</p>
+                
+                <form id="director-lead-form" class="bg-cinema-700 p-8 rounded-2xl shadow-xl" onsubmit="handleFormSubmit(event, 'director')">
+                    <div class="mb-6">
+                        <label for="director-name" class="block text-sm font-semibold mb-2">이름 *</label>
+                        <input 
+                            type="text" 
+                            id="director-name" 
+                            name="name"
+                            required 
+                            class="w-full px-4 py-3 bg-cinema-600 border border-cinema-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                            placeholder="김감독">
+                    </div>
+                    <div class="mb-6">
+                        <label for="director-email" class="block text-sm font-semibold mb-2">이메일 *</label>
+                        <input 
+                            type="email" 
+                            id="director-email" 
+                            name="email"
+                            required 
+                            class="w-full px-4 py-3 bg-cinema-600 border border-cinema-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                            placeholder="director@example.com">
+                    </div>
+                    <div class="mb-6">
+                        <label for="director-position" class="block text-sm font-semibold mb-2">포지션</label>
+                        <input 
+                            type="text" 
+                            id="director-position" 
+                            name="position"
+                            value="감독·제작자"
+                            readonly 
+                            class="w-full px-4 py-3 bg-cinema-800 border border-cinema-600 rounded-lg text-gray-400 cursor-not-allowed">
+                    </div>
+                    <div class="mb-6">
+                        <label class="flex items-start gap-3">
+                            <input 
+                                type="checkbox" 
+                                name="consent"
+                                required 
+                                class="mt-1 w-5 h-5 bg-cinema-600 border-cinema-500 rounded focus:ring-2 focus:ring-purple-500">
+                            <span class="text-sm text-gray-300">개인정보 수집 및 이용에 동의합니다. (마케팅 목적, 언제든 철회 가능)</span>
+                        </label>
+                    </div>
+                    <button 
+                        type="submit" 
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-lg font-bold text-lg transition-all">
+                        사전 신청하기
+                    </button>
+                </form>
+
+                <!-- Thank You Card (Hidden by default) -->
+                <div id="director-thankyou" class="hidden bg-gradient-to-br from-purple-900/50 to-indigo-900/50 p-8 rounded-2xl shadow-xl border border-purple-500/20 text-center">
+                    <div class="text-6xl mb-4">🎉</div>
+                    <h3 class="text-3xl font-bold mb-4">신청이 완료되었습니다!</h3>
+                    <p class="text-gray-300 mb-6">런칭 소식을 가장 먼저 알려드릴게요.</p>
+                    <button 
+                        onclick="openPSFModal()"
+                        class="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-lg font-semibold transition-all">
+                        1분 인터뷰 참여하고 추가 혜택 받기 →
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- PSF Modal -->
+    <div id="psf-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4" onclick="closePSFModal(event)">
+        <div class="bg-cinema-800 p-8 rounded-2xl shadow-2xl max-w-lg w-full" onclick="event.stopPropagation()">
+            <h3 class="text-2xl font-bold mb-4">이 서비스, 정말 필요하신가요?</h3>
+            <p class="text-gray-300 mb-8">솔직한 의견이 더 나은 서비스를 만듭니다.</p>
+            <div class="flex flex-col gap-4">
+                <button 
+                    onclick="handlePSF('yes')"
+                    class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-lg font-semibold transition-all">
+                    매우 필요해요! 🙌
+                </button>
+                <button 
+                    onclick="handlePSF('no')"
+                    class="bg-cinema-700 hover:bg-cinema-600 py-4 rounded-lg font-semibold transition-all">
+                    아직 잘 모르겠어요 🤔
+                </button>
+            </div>
+            <button 
+                onclick="closePSFModal()"
+                class="mt-6 w-full text-gray-400 hover:text-white transition-all">
+                닫기
+            </button>
+        </div>
+    </div>
+
+    <script>
+        /*
+         * ============================================================
+         * QA 체크리스트
+         * ============================================================
+         * [ ] 탭 전환 시 select_content 이벤트 푸시 확인 (tab, utm_*)
+         * [ ] 섹션 50% 이상 노출 시 view_content 이벤트 푸시 확인
+         * [ ] CTA 버튼 클릭 시 cta_primary 이벤트 푸시 확인 (tab, role, utm_*)
+         * [ ] 핵심 기능 CTA 클릭 시 cta_feature 이벤트 푸시 확인 (tab, feature, utm_*)
+         * [ ] 폼 제출 성공 시 generate_lead 이벤트 푸시 확인 (tab, role, email_domain, utm_*)
+         * [ ] PSF 모달 투표 시 psf_vote_yes/no 이벤트 푸시 확인
+         * [ ] UTM 파라미터 파싱 및 모든 이벤트에 포함 확인
+         * [ ] GTM에서 dataLayer 이벤트 수신 및 GA4 전송 설정 확인
+         * ============================================================
+         */
+
+        // Initialize dataLayer
+        window.dataLayer = window.dataLayer || [];
+
+        // Parse UTM parameters from URL
+        function parseUTMParams() {
+            const params = new URLSearchParams(window.location.search);
+            const utmSource = params.get('utm_source') || '';
+            const utmMedium = params.get('utm_medium') || '';
+            const utmCampaign = params.get('utm_campaign') || '';
+            
+            document.getElementById('utm_source').value = utmSource;
+            document.getElementById('utm_medium').value = utmMedium;
+            document.getElementById('utm_campaign').value = utmCampaign;
+            
+            return {
+                utm_source: utmSource,
+                utm_medium: utmMedium,
+                utm_campaign: utmCampaign
+            };
+        }
+
+        // Get UTM parameters
+        function getUTMParams() {
+            return {
+                utm_source: document.getElementById('utm_source').value,
+                utm_medium: document.getElementById('utm_medium').value,
+                utm_campaign: document.getElementById('utm_campaign').value
+            };
+        }
+
+        // Get current active tab
+        function getCurrentTab() {
+            return document.getElementById('actor-content').classList.contains('active') ? 'actor' : 'director';
+        }
+
+        // Tab Switching Function
+        // GTM 매핑: event='select_content', tab='actor'|'director', utm_source, utm_medium, utm_campaign
+        function switchTab(tab) {
+            const actorContent = document.getElementById('actor-content');
+            const directorContent = document.getElementById('director-content');
+            const tabs = document.querySelectorAll('.tab-btn');
+            
+            // Update content visibility
+            if (tab === 'actor') {
+                actorContent.classList.add('active');
+                directorContent.classList.remove('active');
+            } else {
+                directorContent.classList.add('active');
+                actorContent.classList.remove('active');
+            }
+            
+            // Update tab buttons
+            tabs.forEach(btn => {
+                const isActive = btn.dataset.tab === tab;
+                btn.setAttribute('aria-selected', isActive);
+                if (isActive) {
+                    btn.classList.add('bg-purple-600', 'text-white');
+                    btn.classList.remove('text-gray-400', 'hover:text-white');
+                } else {
+                    btn.classList.remove('bg-purple-600', 'text-white');
+                    btn.classList.add('text-gray-400', 'hover:text-white');
+                }
+            });
+            
+            // Update URL hash
+            window.location.hash = tab;
+            
+            // Push to dataLayer - GTM will handle GA4 event
+            window.dataLayer.push({
+                event: 'select_content',
+                tab: tab,
+                ...getUTMParams()
+            });
+
+            // Reset intersection observer for new tab
+            setupIntersectionObserver();
+        }
+
+        // Handle hash changes
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.substring(1);
+            if (hash === 'actor' || hash === 'director') {
+                switchTab(hash);
+            }
+        });
+
+        // CTA Button Click Handler
+        // GTM 매핑: event='cta_primary', tab, role='actor'|'director', utm_*
+        function handleCTA(role) {
+            window.dataLayer.push({
+                event: 'cta_primary',
+                tab: getCurrentTab(),
+                role: role,
+                ...getUTMParams()
+            });
+            
+            // Scroll to form
+            const formSection = document.querySelector(`#${getCurrentTab()}-content #form`);
+            formSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Feature CTA Click Handler
+        // GTM 매핑: event='cta_feature', tab, feature='video_profile'|'review_system'|'fair_matching'|'trust_score'|'contract_auto'|'video_search', utm_*
+        function handleFeatureCTA(role, feature) {
+            window.dataLayer.push({
+                event: 'cta_feature',
+                tab: getCurrentTab(),
+                feature: feature,
+                role: role,
+                ...getUTMParams()
+            });
+            
+            // Scroll to form
+            const formSection = document.querySelector(`#${getCurrentTab()}-content #form`);
+            formSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Form Submit Handler
+        // GTM 매핑: event='generate_lead', tab, role, email_domain, utm_*
+        function handleFormSubmit(event, role) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const email = form.email.value;
+            const emailDomain = email.split('@')[1] || '';
+            
+            // Push to dataLayer - GTM will handle GA4 event
+            window.dataLayer.push({
+                event: 'generate_lead',
+                tab: getCurrentTab(),
+                role: role,
+                email_domain: emailDomain,
+                ...getUTMParams()
+            });
+            
+            // Hide form and show thank you card
+            form.classList.add('hidden');
+            document.getElementById(`${role}-thankyou`).classList.remove('hidden');
+        }
+
+        // PSF Modal Functions
+        function openPSFModal() {
+            document.getElementById('psf-modal').classList.remove('hidden');
+        }
+
+        function closePSFModal(event) {
+            if (!event || event.target === event.currentTarget) {
+                document.getElementById('psf-modal').classList.add('hidden');
+            }
+        }
+
+        // PSF Vote Handler
+        // GTM 매핑: event='psf_vote_yes' 또는 'psf_vote_no', tab, utm_*
+        function handlePSF(vote) {
+            const eventName = vote === 'yes' ? 'psf_vote_yes' : 'psf_vote_no';
+            
+            window.dataLayer.push({
+                event: eventName,
+                tab: getCurrentTab(),
+                ...getUTMParams()
+            });
+            
+            closePSFModal();
+            
+            // Show confirmation
+            alert(vote === 'yes' 
+                ? '소중한 의견 감사합니다! 더 나은 서비스로 보답하겠습니다. 🙏' 
+                : '의견 감사합니다. 서비스 개선에 참고하겠습니다.');
+        }
+
+        // Intersection Observer for Section Tracking
+        // GTM 매핑: event='view_content', section='hero'|'problem'|'solution'|'form', tab, utm_*
+        let observedSections = new Set();
+
+        function setupIntersectionObserver() {
+            // Clear previous observations
+            observedSections.clear();
+            
+            const activeContent = document.querySelector('.tab-content.active');
+            const sections = activeContent.querySelectorAll('[data-section]');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const sectionId = entry.target.dataset.section;
+                    const sectionKey = `${getCurrentTab()}_${sectionId}`;
+                    
+                    if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+                        if (!observedSections.has(sectionKey)) {
+                            observedSections.add(sectionKey);
+                            
+                            window.dataLayer.push({
+                                event: 'view_content',
+                                section: sectionId,
+                                tab: getCurrentTab(),
+                                ...getUTMParams()
+                            });
+                        }
+                    }
+                });
+            }, {
+                threshold: 0.5
+            });
+            
+            sections.forEach(section => observer.observe(section));
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Parse UTM parameters
+            parseUTMParams();
+            
+            // Check URL hash
+            const hash = window.location.hash.substring(1);
+            if (hash === 'director') {
+                switchTab('director');
+            } else {
+                switchTab('actor');
+            }
+            
+            // Setup intersection observer
+            setupIntersectionObserver();
+        });
+    </script>
+</body>
+</html>
