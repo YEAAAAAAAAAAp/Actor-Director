@@ -72,6 +72,29 @@ input:focus {
     transform: scale(1.02);
 }
 
+.cta-btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+/* Enhanced Card Animations */
+.group:hover {
+    transform: translateY(-8px);
+}
+
+/* Gradient Background Animations */
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.bg-gradient-to-r,
+.bg-gradient-to-br {
+    background-size: 200% 200%;
+    animation: gradient-shift 6s ease infinite;
+}
+
 /* Card Hover Effects */
 .hover\:border-purple-400\/40:hover {
     border-color: rgba(168, 85, 247, 0.4);
