@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actor-Director | 영상 중심 캐스팅 플랫폼</title>
+    <meta name="description" content="배우는 영상 프로필로 캐스팅 받고, 감독은 검증된 배우와 안전하게 협업하세요.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Actor-Director | 영상 중심 캐스팅 플랫폼">
+    <meta property="og:description" content="배우는 영상 프로필로 캐스팅 받고, 감독은 검증된 배우와 안전하게 협업하세요.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yeaaaaaaaaaap.github.io/Actor-Director/">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Actor-Director | 영상 중심 캐스팅 플랫폼">
+    <meta name="twitter:description" content="배우는 영상 프로필로 캐스팅 받고, 감독은 검증된 배우와 안전하게 협업하세요.">
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S43Q2VXZLJ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        
+        // Enhanced GA4 Configuration
+        gtag('config', 'G-S43Q2VXZLJ', {
+            // Enhanced measurement settings
+            enhanced_measurement: true,
+            page_title: document.title,
+            page_location: window.location.href,
+            // User engagement settings
+            engagement_time_msec: 100,
+            // Custom parameters
+            custom_map: {
+                'custom_parameter_1': 'tab',
+                'custom_parameter_2': 'feature',
+                'custom_parameter_3': 'role'
+            }
+        });
+        
+        // Set user properties for segmentation
+        gtag('set', 'user_properties', {
+            preferred_tab: 'unknown',
+            user_type: 'visitor',
+            engagement_level: 'low'
+        });
+    </script>
+    <!-- End Google Analytics 4 -->
+    
+    <!-- External Stylesheets -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cinema: {
+                            900: '#0a0a0a',
+                            800: '#1a1a1a',
+                            700: '#2a2a2a',
+                            600: '#3a3a3a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-cinema-900 text-white">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="text-center">
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <div class="text-white font-semibold">Actor·Director</div>
+        </div>
+    </div>
+    
+    <!-- Scroll Progress Indicator -->
+    <div id="scroll-progress" class="scroll-progress"></div>
+    
+    <!-- No noscript needed for GA4 -->
+
+    <!-- UTM Parameters Hidden Storage -->
+    <input type="hidden" id="utm_source" value="">
+    <input type="hidden" id="utm_medium" value="">
+    <input type="hidden" id="utm_campaign" value="">
+
+    <!-- Header with Tab Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-cinema-800/95 backdrop-blur-md border-b border-cinema-600/50 shadow-lg">
+        <nav class="container mx-auto px-4 py-4" role="navigation" aria-label="메인 탭 네비게이션">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="text-2xl">🎬</div>
+                    <div class="text-xl font-bold gradient-text">Actor·Director</div>
+                </div>
+                <div class="flex gap-2" role="tablist">
+                    <button 
+                        class="tab-btn px-6 py-3 rounded-xl transition-all font-semibold border-2 border-transparent hover:border-purple-500/30"
+                        role="tab"
+                        aria-selected="true"
+                        aria-controls="actor-content"
+                        data-tab="actor"
+                        onclick="switchTab('actor')">
+                        <span class="flex items-center gap-2">
+                            🎭 배우용
+                        </span>
+                    </button>
+                    <button 
+                        class="tab-btn px-6 py-3 rounded-xl transition-all font-semibold border-2 border-transparent hover:border-purple-500/30"
+                        role="tab"
+                        aria-selected="false"
+                        aria-controls="director-content"
+                        data-tab="director"
+                        onclick="switchTab('director')">
+                        <span class="flex items-center gap-2">
+                            🎬 감독·제작자용
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Actor Content -->
+    <main id="actor-content" class="tab-content active pt-24" role="tabpanel" aria-labelledby="actor-tab">
+        <!-- Hero Section -->
+        <section id="hero" class="hero-background min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden" data-section="hero">
+            <!-- Portfolio Grid Background -->
+            <div class="portfolio-grid">
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+            </div>
+            
+            <!-- Dark Overlay for Text Readability -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/35 to-black/65 z-5"></div>
+            
+            <!-- Film Strip Effects -->
+            <div class="film-strip z-10"></div>
+            
+            <!-- Floating Cinematic Elements -->
+            <div class="floating-element floating-camera z-10">🎥</div>
+            <div class="floating-element floating-film z-10">🎞️</div>
+            <div class="floating-element floating-spotlight z-10">💡</div>
+            
+            <!-- Main Content -->
+            <div class="container mx-auto max-w-6xl text-center relative z-20">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-2xl">
+                    프로필만 돌리지 말고,<br>
+                    <span class="text-yellow-300 drop-shadow-lg font-bold">당신의 연기로 캐스팅 받으세요.</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-200 mb-12 drop-shadow-lg">
+                    영상 중심 프로필 · 상호리뷰 평판 · 공정한 기회
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <button 
+                        class="cta-btn btn-primary px-8 py-4 rounded-xl text-lg font-bold transition-all transform hover:scale-105 text-white border-0 pulse-glow"
+                        data-role="actor"
+                        onclick="handleCTA('actor')">
+                        ✨ 배우로 시작하기 →
+                    </button>
+                    <button 
+                        class="cta-btn-secondary bg-white/10 hover:bg-white/20 border-2 border-white/30 hover:border-white/50 px-8 py-4 rounded-xl text-lg font-semibold transition-all backdrop-blur-sm shadow-xl"
+                        onclick="handleFeatureExplore('actor')">
+                        기능 살펴보기 🎬
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Section -->
+        <section id="problem" class="py-24 px-4 bg-gradient-to-b from-cinema-800/30 to-cinema-800/70" data-section="problem">
+            <div class="container mx-auto max-w-6xl">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-red-400 to-orange-500 bg-clip-text text-transparent">이런 고민, 하고 계신가요?</h2>
+                    <p class="text-xl text-gray-400">많은 배우들이 겪고 있는 현실적인 문제들</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="group bg-gradient-to-br from-cinema-700/80 to-cinema-600/60 p-8 rounded-3xl shadow-2xl hover:shadow-purple-500/20 transition-all duration-300 hover:-translate-y-2 border border-gray-700/50">
+                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">🤝</div>
+                        <h3 class="text-2xl font-bold mb-4 text-white">인맥이 전부인 캐스팅</h3>
+                        <p class="text-gray-300 leading-relaxed">아는 사람 없으면 기회조차 얻기 힘든 구조. 실력만으로는 부족한 현실.</p>
+                        <div class="mt-6 h-1 bg-gradient-to-r from-red-500 to-orange-500 rounded-full"></div>
+                    </div>
+                    <div class="group bg-gradient-to-br from-cinema-700/80 to-cinema-600/60 p-8 rounded-3xl shadow-2xl hover:shadow-purple-500/20 transition-all duration-300 hover:-translate-y-2 border border-gray-700/50">
+                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">📄</div>
+                        <h3 class="text-2xl font-bold mb-4 text-white">텍스트 프로필의 한계</h3>
+                        <p class="text-gray-300 leading-relaxed">사진과 이력서만으로는 연기력을 증명할 수 없어요. 실제 연기를 보여주고 싶은데...</p>
+                        <div class="mt-6 h-1 bg-gradient-to-r from-red-500 to-orange-500 rounded-full"></div>
+                    </div>
+                    <div class="group bg-gradient-to-br from-cinema-700/80 to-cinema-600/60 p-8 rounded-3xl shadow-2xl hover:shadow-purple-500/20 transition-all duration-300 hover:-translate-y-2 border border-gray-700/50">
+                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">⏰</div>
+                        <h3 class="text-2xl font-bold mb-4 text-white">끝없는 시간 낭비</h3>
+                        <p class="text-gray-300 leading-relaxed">오디션 갔는데 조건 안 맞고, 연락 두절... 매번 반복되는 악순환.</p>
+                        <div class="mt-6 h-1 bg-gradient-to-r from-red-500 to-orange-500 rounded-full"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution Section -->
+        <section id="solution" class="py-24 px-4 bg-gradient-to-b from-cinema-900 to-cinema-800" data-section="solution">
+            <div class="container mx-auto max-w-6xl">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">Actor·Director가 해결합니다</h2>
+                    <p class="text-xl text-gray-400">혁신적인 기술로 업계의 문제를 해결합니다</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="group bg-gradient-to-br from-purple-900/60 to-indigo-900/60 p-8 rounded-3xl shadow-2xl border border-purple-500/30 hover:border-purple-400/60 transition-all duration-300 hover:-translate-y-2 backdrop-blur-sm">
+                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">🎬</div>
+                        <h3 class="text-2xl font-bold mb-4 text-white">영상 중심 프로필</h3>
+                        <p class="text-gray-300 mb-8 leading-relaxed">짧은 연기 영상으로 당신의 실력을 직접 증명하세요. 말이 아닌 연기로 말하세요.</p>
+                        <button 
+                            onclick="handleIndividualFeatureCTA('video_profile', '영상 프로필')"
+                            class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
+                            영상 프로필 만들기 →
+                        </button>
+                    </div>
+                    <div class="group bg-gradient-to-br from-purple-900/60 to-indigo-900/60 p-8 rounded-3xl shadow-2xl border border-purple-500/30 hover:border-purple-400/60 transition-all duration-300 hover:-translate-y-2 backdrop-blur-sm">
+                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">⭐</div>
+                        <h3 class="text-2xl font-bold mb-4 text-white">상호리뷰 평판 시스템</h3>
+                        <p class="text-gray-300 mb-8 leading-relaxed">협업했던 감독과 배우가 서로를 평가. 신뢰도 높은 배우가 더 많은 기회를 얻습니다.</p>
+                        <button 
+                            onclick="handleIndividualFeatureCTA('review_system', '상호리뷰 평판 시스템')"
+                            class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
+                            평판 시스템 알아보기 →
+                        </button>
+                    </div>
+                    <div class="group bg-gradient-to-br from-purple-900/60 to-indigo-900/60 p-8 rounded-3xl shadow-2xl border border-purple-500/30 hover:border-purple-400/60 transition-all duration-300 hover:-translate-y-2 backdrop-blur-sm">
+                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">🎯</div>
+                        <h3 class="text-2xl font-bold mb-4 text-white">공정한 매칭</h3>
+                        <p class="text-gray-300 mb-8 leading-relaxed">인맥이 아닌 조건과 실력으로만 매칭. 누구에게나 열린 기회.</p>
+                        <button 
+                            onclick="handleIndividualFeatureCTA('fair_matching', '공정한 매칭')"
+                            class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
+                            매칭 시스템 체험하기 →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Form Section -->
+        <section id="form" class="py-20 px-4 bg-cinema-800/50" data-section="form">
+            <div class="container mx-auto max-w-2xl">
+                <h2 class="text-4xl md:text-5xl font-bold mb-8 text-center">사전 신청하고 얼리버드 혜택 받기</h2>
+                <p class="text-center text-gray-300 mb-12">런칭 시 우선 알림 + 첫 달 프리미엄 무료</p>
+                
+                <form id="lead-form" class="bg-cinema-700 p-8 rounded-2xl shadow-xl" onsubmit="handleFormSubmit(event, 'actor')">
+                    <div class="mb-6">
+                        <label for="actor-name" class="block text-sm font-semibold mb-2">이름 *</label>
+                        <input 
+                            type="text" 
+                            id="actor-name" 
+                            name="name"
+                            required 
+                            class="w-full px-4 py-3 bg-cinema-600 border border-cinema-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                            placeholder="홍길동">
+                    </div>
+                    <div class="mb-6">
+                        <label for="actor-email" class="block text-sm font-semibold mb-2">이메일 *</label>
+                        <input 
+                            type="email" 
+                            id="actor-email" 
+                            name="email"
+                            required 
+                            class="w-full px-4 py-3 bg-cinema-600 border border-cinema-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                            placeholder="actor@example.com">
+                    </div>
+                    <div class="mb-6">
+                        <label for="actor-position" class="block text-sm font-semibold mb-2">포지션</label>
+                        <input 
+                            type="text" 
+                            id="actor-position" 
+                            name="position"
+                            value="배우"
+                            readonly 
+                            class="w-full px-4 py-3 bg-cinema-800 border border-cinema-600 rounded-lg text-gray-400 cursor-not-allowed">
+                    </div>
+                    <div class="mb-6">
+                        <label class="flex items-start gap-3">
+                            <input 
+                                type="checkbox" 
+                                name="consent"
+                                required 
+                                class="mt-1 w-5 h-5 bg-cinema-600 border-cinema-500 rounded focus:ring-2 focus:ring-purple-500">
+                            <span class="text-sm text-gray-300">개인정보 수집 및 이용에 동의합니다. (마케팅 목적, 언제든 철회 가능)</span>
+                        </label>
+                    </div>
+                    <button 
+                        type="submit" 
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-lg font-bold text-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span class="submit-text">사전 신청하기</span>
+                        <span class="loading-text hidden">제출 중<span class="loading-dots"></span></span>
+                    </button>
+                </form>
+
+                <!-- Thank You Card (Hidden by default) -->
+                <div id="actor-thankyou" class="hidden bg-gradient-to-br from-purple-900/50 to-indigo-900/50 p-8 rounded-2xl shadow-xl border border-purple-500/20 text-center">
+                    <div class="text-6xl mb-4">🎉</div>
+                    <h3 class="text-3xl font-bold mb-4">신청이 완료되었습니다!</h3>
+                    <p class="text-gray-300 mb-6">런칭 소식을 가장 먼저 알려드릴게요.</p>
+                    <button 
+                        onclick="handleInterviewCTA('actor')"
+                        class="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-lg font-semibold transition-all">
+                        1분 인터뷰 참여하고 추가 혜택 받기 →
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Director Content -->
+    <main id="director-content" class="tab-content pt-24" role="tabpanel" aria-labelledby="director-tab">
+        <!-- Hero Section -->
+        <section id="hero" class="hero-background min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden" data-section="hero">
+            <!-- Portfolio Grid Background -->
+            <div class="portfolio-grid">
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card featured"></div>
+                <div class="portfolio-card"></div>
+                <div class="portfolio-card"></div>
+            </div>
+            
+            <!-- Dark Overlay for Text Readability -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/35 to-black/65 z-5"></div>
+            
+            <!-- Film Strip Effects -->
+            <div class="film-strip z-10"></div>
+            
+            <!-- Floating Cinematic Elements -->
+            <div class="floating-element floating-camera z-10">🎬</div>
+            <div class="floating-element floating-film z-10">🎭</div>
+            <div class="floating-element floating-spotlight z-10">🎪</div>
+            
+            <!-- Main Content -->
+            <div class="container mx-auto max-w-6xl text-center relative z-20">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-2xl">
+                    '노쇼' 걱정 끝.<br>
+                    <span class="text-yellow-300 drop-shadow-lg font-bold">평판이 검증된 배우가 기다립니다.</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-200 mb-12 drop-shadow-lg">
+                    신뢰 온도 · 표준 근로계약서 · 영상 포트폴리오
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <button 
+                        class="cta-btn btn-primary px-8 py-4 rounded-xl text-lg font-bold transition-all transform hover:scale-105 text-white border-0 pulse-glow"
+                        data-role="director"
+                        onclick="handleCTA('director')">
+                        ✨ 감독으로 시작하기 →
+                    </button>
+                    <button 
+                        class="cta-btn-secondary bg-white/10 hover:bg-white/20 border-2 border-white/30 hover:border-white/50 px-8 py-4 rounded-xl text-lg font-semibold transition-all backdrop-blur-sm shadow-xl"
+                        onclick="handleFeatureExplore('director')">
+                        기능 살펴보기 🎥
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Section -->
+        <section id="problem" class="py-20 px-4 bg-cinema-800/50" data-section="problem">
+            <div class="container mx-auto max-w-6xl">
+                <h2 class="text-4xl md:text-5xl font-bold mb-12 text-center">이런 문제, 겪고 계신가요?</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-cinema-700 p-8 rounded-2xl shadow-xl">
+                        <div class="text-4xl mb-4">👻</div>
+                        <h3 class="text-2xl font-bold mb-4">예고 없는 노쇼</h3>
+                        <p class="text-gray-300">촬영 당일 연락두절. 전체 스케줄 붕괴. 신뢰할 수 있는 배우를 찾기가 너무 어렵습니다.</p>
+                    </div>
+                    <div class="bg-cinema-700 p-8 rounded-2xl shadow-xl">
+                        <div class="text-4xl mb-4">📝</div>
+                        <h3 class="text-2xl font-bold mb-4">계약서 리스크</h3>
+                        <p class="text-gray-300">구두 약속만 믿고 진행했다가 사후 분쟁. 표준화된 계약 프로세스가 절실해요.</p>
+                    </div>
+                    <div class="bg-cinema-700 p-8 rounded-2xl shadow-xl">
+                        <div class="text-4xl mb-4">💬</div>
+                        <h3 class="text-2xl font-bold mb-4">커뮤니케이션 과부하</h3>
+                        <p class="text-gray-300">수십 명에게 개별 연락, 조율... 캐스팅에만 며칠씩 소모되는 시간.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution Section -->
+        <section id="solution" class="py-20 px-4" data-section="solution">
+            <div class="container mx-auto max-w-6xl">
+                <h2 class="text-4xl md:text-5xl font-bold mb-12 text-center">Actor·Director가 해결합니다</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-gradient-to-br from-purple-900/50 to-indigo-900/50 p-8 rounded-2xl shadow-xl border border-purple-500/20 hover:border-purple-400/40 transition-all">
+                        <div class="text-4xl mb-4">🌡️</div>
+                        <h3 class="text-2xl font-bold mb-4">신뢰 온도 시스템</h3>
+                        <p class="text-gray-300 mb-6">이전 협업 리뷰 기반 신뢰도 점수. 노쇼 이력은 투명하게 공개됩니다.</p>
+                        <button 
+                            onclick="handleIndividualFeatureCTA('trust_score', '신뢰 온도 시스템')"
+                            class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
+                            신뢰 온도 확인하기 →
+                        </button>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-900/50 to-indigo-900/50 p-8 rounded-2xl shadow-xl border border-purple-500/20 hover:border-purple-400/40 transition-all">
+                        <div class="text-4xl mb-4">📋</div>
+                        <h3 class="text-2xl font-bold mb-4">표준 근로계약서 자동화</h3>
+                        <p class="text-gray-300 mb-6">법률 검토 완료된 템플릿으로 클릭 몇 번이면 계약 완료. 분쟁 걱정 없이 안전하게.</p>
+                        <button 
+                            onclick="handleIndividualFeatureCTA('contract_auto', '표준 근로계약서 자동화')"
+                            class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
+                            계약서 템플릿 보기 →
+                        </button>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-900/50 to-indigo-900/50 p-8 rounded-2xl shadow-xl border border-purple-500/20 hover:border-purple-400/40 transition-all">
+                        <div class="text-4xl mb-4">🎥</div>
+                        <h3 class="text-2xl font-bold mb-4">영상 포트폴리오 검색</h3>
+                        <p class="text-gray-300 mb-6">조건 필터 + 실제 연기 영상 확인. 한 번에 적합한 배우를 찾으세요.</p>
+                        <button 
+                            onclick="handleIndividualFeatureCTA('video_search', '영상 포트폴리오 검색')"
+                            class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
+                            배우 검색 시작하기 →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Form Section -->
+        <section id="form" class="py-20 px-4 bg-cinema-800/50" data-section="form">
+            <div class="container mx-auto max-w-2xl">
+                <h2 class="text-4xl md:text-5xl font-bold mb-8 text-center">사전 신청하고 얼리버드 혜택 받기</h2>
+                <p class="text-center text-gray-300 mb-12">런칭 시 우선 알림 + 첫 달 프리미엄 무료</p>
+                
+                <form id="director-lead-form" class="bg-cinema-700 p-8 rounded-2xl shadow-xl" onsubmit="handleFormSubmit(event, 'director')">
+                    <div class="mb-6">
+                        <label for="director-name" class="block text-sm font-semibold mb-2">이름 *</label>
+                        <input 
+                            type="text" 
+                            id="director-name" 
+                            name="name"
+                            required 
+                            class="w-full px-4 py-3 bg-cinema-600 border border-cinema-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                            placeholder="김감독">
+                    </div>
+                    <div class="mb-6">
+                        <label for="director-email" class="block text-sm font-semibold mb-2">이메일 *</label>
+                        <input 
+                            type="email" 
+                            id="director-email" 
+                            name="email"
+                            required 
+                            class="w-full px-4 py-3 bg-cinema-600 border border-cinema-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
+                            placeholder="director@example.com">
+                    </div>
+                    <div class="mb-6">
+                        <label for="director-position" class="block text-sm font-semibold mb-2">포지션</label>
+                        <input 
+                            type="text" 
+                            id="director-position" 
+                            name="position"
+                            value="감독·제작자"
+                            readonly 
+                            class="w-full px-4 py-3 bg-cinema-800 border border-cinema-600 rounded-lg text-gray-400 cursor-not-allowed">
+                    </div>
+                    <div class="mb-6">
+                        <label class="flex items-start gap-3">
+                            <input 
+                                type="checkbox" 
+                                name="consent"
+                                required 
+                                class="mt-1 w-5 h-5 bg-cinema-600 border-cinema-500 rounded focus:ring-2 focus:ring-purple-500">
+                            <span class="text-sm text-gray-300">개인정보 수집 및 이용에 동의합니다. (마케팅 목적, 언제든 철회 가능)</span>
+                        </label>
+                    </div>
+                    <button 
+                        type="submit" 
+                        class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-lg font-bold text-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span class="submit-text">사전 신청하기</span>
+                        <span class="loading-text hidden">제출 중<span class="loading-dots"></span></span>
+                    </button>
+                </form>
+
+                <!-- Thank You Card (Hidden by default) -->
+                <div id="director-thankyou" class="hidden bg-gradient-to-br from-purple-900/50 to-indigo-900/50 p-8 rounded-2xl shadow-xl border border-purple-500/20 text-center">
+                    <div class="text-6xl mb-4">🎉</div>
+                    <h3 class="text-3xl font-bold mb-4">신청이 완료되었습니다!</h3>
+                    <p class="text-gray-300 mb-6">런칭 소식을 가장 먼저 알려드릴게요.</p>
+                    <button 
+                        onclick="handleInterviewCTA('director')"
+                        class="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-lg font-semibold transition-all">
+                        1분 인터뷰 참여하고 추가 혜택 받기 →
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Feature Coming Soon Modal -->
+    <div id="feature-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4" onclick="closeFeatureModal(event)">
+        <div class="bg-cinema-800 p-8 rounded-2xl shadow-2xl max-w-lg w-full border border-purple-500/30" onclick="event.stopPropagation()">
+            <div class="text-center">
+                <div class="text-6xl mb-4">🚧</div>
+                <h3 class="text-2xl font-bold mb-4 text-white">기능이 준비 중입니다!</h3>
+                <p class="text-gray-300 mb-6">곧 멋진 기능으로 찾아뵙겠습니다.</p>
+                <div class="bg-gradient-to-r from-purple-900/50 to-indigo-900/50 p-4 rounded-lg mb-6">
+                    <p class="text-sm text-purple-200">
+                        <span class="font-semibold" id="feature-name">기능</span>에 관심을 가져주셔서 감사합니다!<br>
+                        런칭 소식을 받고 싶으시면 사전 신청해 주세요.
+                    </p>
+                </div>
+                <button 
+                    onclick="handleModalClose('feature')"
+                    class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-3 rounded-lg font-semibold transition-all">
+                    확인
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PSF Modal -->
+    <div id="psf-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4" onclick="closePSFModal(event)">
+        <div class="bg-cinema-800 p-8 rounded-2xl shadow-2xl max-w-lg w-full" onclick="event.stopPropagation()">
+            <h3 class="text-2xl font-bold mb-4">이 서비스, 정말 필요하신가요?</h3>
+            <p class="text-gray-300 mb-8">솔직한 의견이 더 나은 서비스를 만듭니다.</p>
+            <div class="flex flex-col gap-4">
+                <button 
+                    onclick="handlePSF('yes')"
+                    class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 py-4 rounded-lg font-semibold transition-all">
+                    매우 필요해요! 🙌
+                </button>
+                <button 
+                    onclick="handlePSF('no')"
+                    class="bg-cinema-700 hover:bg-cinema-600 py-4 rounded-lg font-semibold transition-all">
+                    아직 잘 모르겠어요 🤔
+                </button>
+            </div>
+            <button 
+                onclick="handleModalClose('psf')"
+                class="mt-6 w-full text-gray-400 hover:text-white transition-all">
+                닫기
+            </button>
+        </div>
+    </div>
+
+    <script>
+        /*
+         * ============================================================
+         * QA 체크리스트
+         * ============================================================
+         * [ ] 탭 전환 시 cta_click 이벤트 발생 확인 (event_category: tab_switch)
+         * [ ] 섹션 50% 이상 노출 시 cta_click 이벤트 발생 확인 (event_category: section_view)
+         * [ ] CTA 버튼 클릭 시 cta_click 이벤트 발생 확인 (event_category: primary_cta)
+         * [ ] 핵심 기능 CTA 클릭 시 cta_click 이벤트 발생 확인 (event_category: feature_cta)
+         * [ ] 개별 기능 CTA 클릭 시 cta_click 이벤트 발생 확인 (event_category: individual_feature_cta)
+         * [ ] 기능 살펴보기 CTA 클릭 시 cta_click 이벤트 발생 확인 (event_category: explore_cta)
+         * [ ] 폼 제출 성공 시 cta_click 이벤트 발생 확인 (event_category: form_submit)
+         * [ ] PSF 모달 투표 시 cta_click 이벤트 발생 확인 (event_category: psf_vote)
+         * [ ] UTM 파라미터가 모든 이벤트에 포함되는지 확인
+         * [ ] GA4에서 cta_click 이벤트 수신 확인
+         * ============================================================
+         */
+
+        // Parse UTM parameters from URL
+        function parseUTMParams() {
+            const params = new URLSearchParams(window.location.search);
+            const utmSource = params.get('utm_source') || '';
+            const utmMedium = params.get('utm_medium') || '';
+            const utmCampaign = params.get('utm_campaign') || '';
+            
+            document.getElementById('utm_source').value = utmSource;
+            document.getElementById('utm_medium').value = utmMedium;
+            document.getElementById('utm_campaign').value = utmCampaign;
+            
+            return {
+                utm_source: utmSource,
+                utm_medium: utmMedium,
+                utm_campaign: utmCampaign
+            };
+        }
+
+        // Get UTM parameters
+        function getUTMParams() {
+            const utmSourceEl = document.getElementById('utm_source');
+            const utmMediumEl = document.getElementById('utm_medium');
+            const utmCampaignEl = document.getElementById('utm_campaign');
+            
+            return {
+                utm_source: utmSourceEl ? utmSourceEl.value : 'direct',
+                utm_medium: utmMediumEl ? utmMediumEl.value : 'none',
+                utm_campaign: utmCampaignEl ? utmCampaignEl.value : 'none'
+            };
+        }
+
+        // Enhanced user engagement tracking
+        function trackUserEngagement() {
+            let scrollDepth = 0;
+            let timeOnPage = 0;
+            let interactionCount = 0;
+            
+            // Track scroll depth
+            function updateScrollDepth() {
+                const scrollHeight = document.body.scrollHeight;
+                const windowHeight = window.innerHeight;
+                const scrollY = window.scrollY;
+                
+                // Prevent division by zero
+                if (scrollHeight <= windowHeight) return;
+                
+                const scrollPercent = Math.min(100, Math.round((scrollY / (scrollHeight - windowHeight)) * 100));
+                if (scrollPercent > scrollDepth) {
+                    scrollDepth = scrollPercent;
+                    
+                    // Send scroll milestone events
+                    if (scrollPercent >= 25 && scrollPercent < 50) {
+                        gtag('event', 'scroll', {
+                            event_category: 'engagement',
+                            event_label: '25_percent',
+                            scroll_depth: 25,
+                            tab: getCurrentTab(),
+                            ...getUTMParams()
+                        });
+                    } else if (scrollPercent >= 50 && scrollPercent < 75) {
+                        gtag('event', 'scroll', {
+                            event_category: 'engagement',
+                            event_label: '50_percent',
+                            scroll_depth: 50,
+                            tab: getCurrentTab(),
+                            ...getUTMParams()
+                        });
+                    } else if (scrollPercent >= 75) {
+                        gtag('event', 'scroll', {
+                            event_category: 'engagement',
+                            event_label: '75_percent',
+                            scroll_depth: 75,
+                            tab: getCurrentTab(),
+                            ...getUTMParams()
+                        });
+                    }
+                }
+            }
+            
+            // Track time on page
+            setInterval(() => {
+                timeOnPage += 10;
+                
+                // Send engagement milestones
+                if (timeOnPage === 30) { // 30 seconds
+                    gtag('event', 'user_engagement', {
+                        event_category: 'engagement',
+                        event_label: '30_seconds',
+                        engagement_time_msec: 30000,
+                        tab: getCurrentTab(),
+                        ...getUTMParams()
+                    });
+                } else if (timeOnPage === 60) { // 1 minute
+                    gtag('event', 'user_engagement', {
+                        event_category: 'engagement',
+                        event_label: '1_minute',
+                        engagement_time_msec: 60000,
+                        tab: getCurrentTab(),
+                        ...getUTMParams()
+                    });
+                } else if (timeOnPage === 180) { // 3 minutes
+                    gtag('event', 'user_engagement', {
+                        event_category: 'engagement',
+                        event_label: '3_minutes',
+                        engagement_time_msec: 180000,
+                        tab: getCurrentTab(),
+                        ...getUTMParams()
+                    });
+                    
+                    // Update user engagement level
+                    gtag('set', 'user_properties', {
+                        engagement_level: 'high'
+                    });
+                }
+            }, 10000); // Check every 10 seconds
+            
+            // Track interactions
+            document.addEventListener('click', () => {
+                interactionCount++;
+                if (interactionCount === 5) {
+                    gtag('event', 'user_engagement', {
+                        event_category: 'engagement',
+                        event_label: 'active_user',
+                        interaction_count: interactionCount,
+                        tab: getCurrentTab(),
+                        ...getUTMParams()
+                    });
+                }
+            });
+            
+            window.addEventListener('scroll', updateScrollDepth);
+        }
+
+        // Enhanced ecommerce tracking for lead generation
+        function trackLeadGeneration(role, email) {
+            const emailDomain = email.split('@')[1];
+            
+            gtag('event', 'generate_lead', {
+                event_category: 'conversion',
+                event_label: role,
+                currency: 'KRW',
+                value: 1, // Lead value
+                items: [{
+                    item_id: `lead_${role}`,
+                    item_name: `Lead Generation - ${role}`,
+                    item_category: 'lead',
+                    item_variant: getCurrentTab(),
+                    quantity: 1,
+                    price: 1
+                }],
+                tab: getCurrentTab(),
+                role: role,
+                email_domain: emailDomain,
+                ...getUTMParams()
+            });
+        }
+
+        // Page performance tracking
+        function trackPagePerformance() {
+            // Track Core Web Vitals
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    try {
+                        const perfData = performance.getEntriesByType('navigation')[0];
+                        
+                        if (perfData && perfData.loadEventEnd && perfData.fetchStart) {
+                            gtag('event', 'page_timing', {
+                                event_category: 'performance',
+                                event_label: 'load_time',
+                                page_load_time: Math.round(perfData.loadEventEnd - perfData.fetchStart),
+                                dom_content_loaded: Math.round(perfData.domContentLoadedEventEnd - perfData.fetchStart),
+                                tab: getCurrentTab(),
+                                ...getUTMParams()
+                            });
+                        }
+                    } catch (error) {
+                        console.warn('Performance tracking error:', error);
+                    }
+                }, 0);
+            });
+        }
+
+        // Session tracking for retention analysis
+        function trackSession() {
+            const sessionId = Date.now().toString();
+            let isReturningUser = false;
+            
+            try {
+                isReturningUser = localStorage.getItem('actor_director_visited');
+                
+                if (!isReturningUser) {
+                    localStorage.setItem('actor_director_visited', 'true');
+                    gtag('event', 'first_visit', {
+                        event_category: 'user_lifecycle',
+                        event_label: 'new_user',
+                        session_id: sessionId,
+                        ...getUTMParams()
+                    });
+                    
+                    gtag('set', 'user_properties', {
+                        user_type: 'new'
+                    });
+                } else {
+                    gtag('event', 'return_visit', {
+                        event_category: 'user_lifecycle',
+                        event_label: 'returning_user',
+                        session_id: sessionId,
+                        ...getUTMParams()
+                    });
+                    
+                    gtag('set', 'user_properties', {
+                        user_type: 'returning'
+                    });
+                }
+            } catch (error) {
+                console.warn('localStorage access error:', error);
+                // Fallback: treat as new user
+                gtag('event', 'first_visit', {
+                    event_category: 'user_lifecycle',
+                    event_label: 'new_user',
+                    session_id: sessionId,
+                    ...getUTMParams()
+                });
+                
+                gtag('set', 'user_properties', {
+                    user_type: 'new'
+                });
+            }
+            
+            // Track session start
+            gtag('event', 'session_start', {
+                event_category: 'user_lifecycle',
+                session_id: sessionId,
+                ...getUTMParams()
+            });
+        }
+
+        // Get current active tab
+        function getCurrentTab() {
+            const actorContent = document.getElementById('actor-content');
+            return (actorContent && actorContent.classList.contains('active')) ? 'actor' : 'director';
+        }
+
+        // Tab Switching Function
+        // GA4 이벤트: cta_click (event_category: tab_switch)
+        function switchTab(tab) {
+            const actorContent = document.getElementById('actor-content');
+            const directorContent = document.getElementById('director-content');
+            const tabs = document.querySelectorAll('.tab-btn');
+            
+            // Update content visibility
+            if (tab === 'actor') {
+                actorContent.classList.add('active');
+                directorContent.classList.remove('active');
+            } else {
+                directorContent.classList.add('active');
+                actorContent.classList.remove('active');
+            }
+            
+            // Update tab buttons
+            tabs.forEach(btn => {
+                const isActive = btn.dataset.tab === tab;
+                btn.setAttribute('aria-selected', isActive);
+            });
+            
+            // Update tab button styling
+            updateTabButtons();
+            
+            // Update URL hash
+            window.location.hash = tab;
+            
+            // GA4 이벤트 전송 - 고유 이벤트 이름
+            gtag('event', 'tab_switch', {
+                event_category: 'navigation',
+                event_label: tab,
+                tab: tab,
+                ...getUTMParams()
+            });
+
+            // Reset intersection observer for new tab
+            setupIntersectionObserver();
+        }
+
+        // Handle hash changes
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.substring(1);
+            if (hash === 'actor' || hash === 'director') {
+                switchTab(hash);
+            }
+        });
+
+        // CTA Button Click Handler
+        // GA4 이벤트: primary_cta_click
+        function handleCTA(role) {
+            gtag('event', 'primary_cta_click', {
+                event_category: 'cta',
+                event_label: `${role}_start`,
+                tab: getCurrentTab(),
+                role: role,
+                ...getUTMParams()
+            });
+            
+            // Scroll to form
+            const formSection = document.querySelector(`#${getCurrentTab()}-content #form`);
+            if (formSection) {
+                formSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Individual Feature CTA Click Handler
+        // GA4 이벤트: feature_cta_click
+        function handleIndividualFeatureCTA(featureId, featureName) {
+            // GA4 이벤트 전송 - 기능별 고유 이벤트
+            gtag('event', `${featureId}_click`, {
+                event_category: 'feature_cta',
+                event_label: featureId,
+                tab: getCurrentTab(),
+                feature: featureId,
+                feature_name: featureName,
+                ...getUTMParams()
+            });
+            
+            // 모달 열기
+            openFeatureModal(featureName);
+        }
+
+        // Feature Modal Functions
+        function openFeatureModal(featureName) {
+            const featureNameEl = document.getElementById('feature-name');
+            const featureModalEl = document.getElementById('feature-modal');
+            
+            if (featureNameEl) {
+                featureNameEl.textContent = featureName;
+            }
+            if (featureModalEl) {
+                featureModalEl.classList.remove('hidden');
+            }
+        }
+
+        function closeFeatureModal(event) {
+            if (!event || event.target === event.currentTarget) {
+                const featureModalEl = document.getElementById('feature-modal');
+                if (featureModalEl) {
+                    featureModalEl.classList.add('hidden');
+                }
+            }
+        }
+
+        // Legacy Feature CTA Handler (기존 기능 유지)
+        function handleFeatureCTA(role, feature) {
+            gtag('event', 'legacy_feature_click', {
+                event_category: 'legacy_cta',
+                event_label: feature,
+                tab: getCurrentTab(),
+                feature: feature,
+                role: role,
+                ...getUTMParams()
+            });
+            
+            // Scroll to form
+            const formSection = document.querySelector(`#${getCurrentTab()}-content #form`);
+            if (formSection) {
+                formSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Feature Explore CTA Click Handler
+        // GA4 이벤트: explore_features_click
+        function handleFeatureExplore(role) {
+            gtag('event', 'explore_features_click', {
+                event_category: 'explore_cta',
+                event_label: `explore_${role}`,
+                tab: getCurrentTab(),
+                role: role,
+                ...getUTMParams()
+            });
+            
+            // Scroll to solution section
+            const solutionSection = document.querySelector(`#${getCurrentTab()}-content #solution`);
+            if (solutionSection) {
+                solutionSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Form Submit Handler
+        // GA4 이벤트: cta_click (event_category: form_submit)
+        function handleFormSubmit(event, role) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const submitText = submitBtn.querySelector('.submit-text');
+            const loadingText = submitBtn.querySelector('.loading-text');
+            const email = form.email.value;
+            const emailDomain = email.split('@')[1] || '';
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitText.classList.add('hidden');
+            loadingText.classList.remove('hidden');
+            
+            // Simulate form submission delay
+            setTimeout(() => {
+                // GA4 이벤트 전송 - 폼 제출 고유 이벤트
+                gtag('event', 'form_submit', {
+                    event_category: 'conversion',
+                    event_label: `lead_${role}`,
+                    tab: getCurrentTab(),
+                    role: role,
+                    email_domain: emailDomain,
+                    ...getUTMParams()
+                });
+                
+                // Enhanced lead generation tracking
+                trackLeadGeneration(role, email);
+                
+                // Hide form and show thank you card
+                form.classList.add('hidden');
+                const thankYouEl = document.getElementById(`${role}-thankyou`);
+                if (thankYouEl) {
+                    thankYouEl.classList.remove('hidden');
+                }
+            }, 1500);
+        }
+
+        // PSF Modal Functions
+        function openPSFModal() {
+            const psfModalEl = document.getElementById('psf-modal');
+            if (psfModalEl) {
+                psfModalEl.classList.remove('hidden');
+            }
+        }
+
+        function closePSFModal(event) {
+            if (!event || event.target === event.currentTarget) {
+                const psfModalEl = document.getElementById('psf-modal');
+                if (psfModalEl) {
+                    psfModalEl.classList.add('hidden');
+                }
+            }
+        }
+
+        // Interview CTA Click Handler
+        // GA4 이벤트: interview_cta_click
+        function handleInterviewCTA(role) {
+            gtag('event', 'interview_cta_click', {
+                event_category: 'engagement_cta',
+                event_label: `interview_${role}`,
+                tab: getCurrentTab(),
+                role: role,
+                ...getUTMParams()
+            });
+            
+            // Open PSF modal
+            openPSFModal();
+        }
+
+        // Modal Close Handler
+        // GA4 이벤트: modal_close
+        function handleModalClose(modalType) {
+            gtag('event', 'modal_close', {
+                event_category: 'ui_interaction',
+                event_label: `close_${modalType}`,
+                tab: getCurrentTab(),
+                modal_type: modalType,
+                ...getUTMParams()
+            });
+            
+            // Close appropriate modal
+            if (modalType === 'feature') {
+                closeFeatureModal();
+            } else if (modalType === 'psf') {
+                closePSFModal();
+            }
+        }
+
+        // PSF Vote Handler
+        // GA4 이벤트: psf_vote
+        function handlePSF(vote) {
+            gtag('event', 'psf_vote', {
+                event_category: 'feedback',
+                event_label: vote === 'yes' ? 'psf_yes' : 'psf_no',
+                tab: getCurrentTab(),
+                vote: vote,
+                ...getUTMParams()
+            });
+            
+            closePSFModal();
+            
+            // Show confirmation
+            alert(vote === 'yes' 
+                ? '소중한 의견 감사합니다! 더 나은 서비스로 보답하겠습니다. 🙏' 
+                : '의견 감사합니다. 서비스 개선에 참고하겠습니다.');
+        }
+
+        // Intersection Observer for Section Tracking
+        // GA4 이벤트: cta_click (event_category: section_view)
+        let observedSections = new Set();
+
+        function setupIntersectionObserver() {
+            // Clear previous observations
+            observedSections.clear();
+            
+            const activeContent = document.querySelector('.tab-content.active');
+            const sections = activeContent.querySelectorAll('[data-section]');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const sectionId = entry.target.dataset.section;
+                    const sectionKey = `${getCurrentTab()}_${sectionId}`;
+                    
+                    if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+                        if (!observedSections.has(sectionKey)) {
+                            observedSections.add(sectionKey);
+                            
+                            gtag('event', 'section_view', {
+                                event_category: 'engagement',
+                                event_label: `view_${sectionId}`,
+                                section: sectionId,
+                                tab: getCurrentTab(),
+                                ...getUTMParams()
+                            });
+                        }
+                    }
+                });
+            }, {
+                threshold: 0.5
+            });
+            
+            sections.forEach(section => observer.observe(section));
+        }
+
+        // Loading Screen Management
+        function hideLoadingScreen() {
+            const loadingScreen = document.getElementById('loading-screen');
+            loadingScreen.classList.add('fade-out');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500);
+        }
+
+        // Scroll Progress Indicator
+        function updateScrollProgress() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+        }
+
+        // Enhanced Tab Button Styling
+        function updateTabButtons() {
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(btn => {
+                const isActive = btn.getAttribute('aria-selected') === 'true';
+                if (isActive) {
+                    btn.classList.add('bg-purple-600', 'text-white', 'border-purple-500');
+                    btn.classList.remove('text-gray-400', 'hover:text-white', 'border-transparent');
+                } else {
+                    btn.classList.remove('bg-purple-600', 'text-white', 'border-purple-500');
+                    btn.classList.add('text-gray-400', 'hover:text-white', 'border-transparent');
+                }
+            });
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hide loading screen after a short delay
+            setTimeout(hideLoadingScreen, 1000);
+            
+            // Parse UTM parameters
+            parseUTMParams();
+            
+            // Check URL hash
+            const hash = window.location.hash.substring(1);
+            if (hash === 'director') {
+                switchTab('director');
+            } else {
+                switchTab('actor');
+            }
+            
+            // Setup intersection observer
+            setupIntersectionObserver();
+            
+            // Update tab buttons styling
+            updateTabButtons();
+            
+            // Initialize tracking functions
+            trackSession();
+            trackUserEngagement();
+            trackPagePerformance();
+            
+            // Setup scroll progress indicator
+            window.addEventListener('scroll', updateScrollProgress);
+            
+            // Add smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
