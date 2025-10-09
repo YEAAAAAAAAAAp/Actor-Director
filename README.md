@@ -139,6 +139,16 @@ gtag('event', 'tab_switch', {
 
 ### 기능별 상세 분석
 
+**배우용 기능:**
+- 영상 프로필 (`video_profile`)
+- 상호리뷰 평판 시스템 (`review_system`)
+- 공정한 매칭 (`fair_matching`)
+
+**감독용 기능:**
+- 신뢰 온도 시스템 (`trust_score`)
+- 표준 근로계약서 자동화 (`contract_auto`)
+- 영상 포트폴리오 검색 (`video_search`)
+
 ### 비즈니스 인사이트
 - 어떤 기능이 리드 전환에 가장 효과적인지
 - 사용자 세그먼트별 기능 선호도
